@@ -3,9 +3,9 @@ from .models import *
 
 
 # Register your models here.
-################
-# Pocket Admin #
-################
+#######################
+# Shared Options Admin#
+#######################
 
 @admin.register(Address)
 class AuthorAdmin(admin.ModelAdmin):
@@ -17,7 +17,7 @@ class AuthorAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(PocketOption)
+@admin.register(Option)
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
@@ -32,7 +32,7 @@ class AuthorAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(PocketType)
+@admin.register(Type)
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
@@ -41,6 +41,77 @@ class AuthorAdmin(admin.ModelAdmin):
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
+
+################
+# Pocket Admin #
+################
+
 @admin.register(Pocket)
 class PocketInstanseAdmin(admin.ModelAdmin):
+    list_filter = ('shop', 'warehouse')
+
+
+######################
+# Price Holder Admin #
+######################
+
+@admin.register(PriceHolderFormat)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(PriceHolder)
+class PriceHolderInstanceAdmin(admin.ModelAdmin):
+    list_filter = ('shop', 'warehouse')
+
+
+#####################
+# Price Paper Admin #
+#####################
+
+@admin.register(PricePaperType)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(PricePaper)
+class PricePaperInstanceAdmin(admin.ModelAdmin):
+    list_filter = ('shop', 'warehouse')
+
+
+######################
+# Price Holder Admin #
+######################
+
+@admin.register(PlasticHolderType)
+class PriceHolderAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(PlasticHolderPosition)
+class PlasticHolderPosition(admin.ModelAdmin):
+    pass
+
+
+@admin.register(PlasticHolder)
+class PlasticHolderInstanceAdmin(admin.ModelAdmin):
+    list_filter = ('shop', 'warehouse')
+
+
+######################
+# Price Holder Admin #
+######################
+
+@admin.register(OtherType)
+class OtherTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OtherName)
+class OtherNamePosition(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Other)
+class OtherInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
