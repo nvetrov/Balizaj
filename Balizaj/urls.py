@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from .bali_client import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
+    path('', views.index),
+    path('pockets', views.pockets),
+    path('priceholders', views.priceholders),
+    path('plasticholders', views.plasticholders),
+    path('pricepaper', views.pricepaper),
+    path('other', views.other),
     path('admin/', admin.site.urls),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)

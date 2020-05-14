@@ -20,18 +20,6 @@ class Address(models.Model):
         verbose_name_plural = 'Складские адреса'
 
 
-# Format (А2 - А6 и т.д.)
-class Format(models.Model):
-    format = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.format
-
-    class Meta:
-        verbose_name = 'Формат бумаги (включая нестандартные)'
-        verbose_name_plural = 'Форматы бумаги (включая нестандартные)'
-
-
 # Additional options (дополнительные карманы и их размеры, прочие опции)
 class Option(models.Model):
     option = models.CharField(max_length=50, blank=True)
@@ -42,6 +30,30 @@ class Option(models.Model):
     class Meta:
         verbose_name = 'Дополнительные опции (доп. карманы, размеры доп. карманов, габариты)'
         verbose_name_plural = 'Дополнительная опция (карман, размер и т.д.)'
+
+
+# Department (номер отдела)
+class Department(models.Model):
+    department = models.SmallIntegerField(verbose_name='Номер отдела')
+
+    def __str__(self):
+        return self.department
+
+    class Meta:
+        verbose_name = 'Номер отдела'
+        verbose_name_plural = 'Номера отделов'
+
+
+# Format (А2 - А6 и т.д.)
+class Format(models.Model):
+    format = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.format
+
+    class Meta:
+        verbose_name = 'Формат бумаги (включая нестандартные)'
+        verbose_name_plural = 'Форматы бумаги (включая нестандартные)'
 
 
 # Orientation (ориентация горизонтальная или вертикальная)
@@ -114,7 +126,7 @@ class Pocket(SharedOption):
     image = models.ImageField(upload_to='images/pockets', blank=True, verbose_name='Изображение')
 
     def __str__(self):
-        if self.option == None:
+        if self.option is None:
             return '{} {} {}, находится - {}, количество - {}'.format(self.type,
                                                                       self.format,
                                                                       self.orientation,
@@ -160,7 +172,7 @@ class PriceHolder(SharedOption):
     image = models.ImageField(upload_to='images/priceholders', blank=True, verbose_name='Изображение')
 
     def __str__(self):
-        if self.option == None:
+        if self.option is None:
             return '{} {}, находится - {}, количество - {}'.format(self.type,
                                                                    self.format,
                                                                    self.warehouse,
