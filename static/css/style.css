@@ -1,5 +1,5 @@
 .container {
-	min-height: 100vh;
+	max-width: 100vh;
 }
 
 @media (max-width: 768px) {

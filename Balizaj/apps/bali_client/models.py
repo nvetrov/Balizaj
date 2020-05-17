@@ -117,7 +117,7 @@ class SharedOption(models.Model):
 
 # Pocket Main Model (описание основной модели карманов)
 class Pocket(SharedOption):
-    type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
+    type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True, verbose_name='Тип', related_name='pockets')
     format = models.ForeignKey(Format, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
     orientation = models.ForeignKey(Orientation, on_delete=models.SET_NULL, null=True, verbose_name='Ориентация')
     option = models.ForeignKey(Option, on_delete=models.SET_NULL, null=True, blank=True,

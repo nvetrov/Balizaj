@@ -14,12 +14,13 @@ import os
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from Balizaj.apps import bali_client
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 PROJECT_ROOT = os.path.dirname(__file__)
 
-sys.path.insert(0, os.path.join(PROJECT_ROOT))
+sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -42,8 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bali_client',
+    'Balizaj.apps.bali_client',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
