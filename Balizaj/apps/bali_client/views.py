@@ -10,11 +10,10 @@ def index(request):
     return render(request, 'index.html', {})
 
 
-def pockets(request, type = 0):
+def pockets(request):
     template = loader.get_template('pockets.html')
-    pockets_type = {'pockets_type': Type.objects.filter(Pocket)}
     pockets_data = {'pockets': Pocket.objects.all()}
-    return HttpResponse(template.render(pockets_data, pockets_type, request))
+    return HttpResponse(template.render(pockets_data, request))
 
 
 def priceholders(request):

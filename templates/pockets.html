@@ -19,16 +19,10 @@
     </div>
     <div class="list-group">
     {% for pocket in pockets %}
-        <p class="list-group-item">{{ pocket.type}}
+        <p class="list-group-item">{{ pocket.pocket_type}}
                                    {{ pocket.format }}
                                    {{ pocket.orientation }} -
                                    {{ pocket.quantity }}</p>
     {% endfor %}
-    </div>
-    <div>
-        {% for type in pockets_type %}
-        <p> {{ type.type }}</p>
-        {% endfor %}
-    </div>
 </body>
 </html>

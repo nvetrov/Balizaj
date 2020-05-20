@@ -2,7 +2,9 @@
 from django.db import models
 
 
-# Create your models here.
+#########################################################################################
+#                          Material models (модели материалов)                          #
+#########################################################################################
 
 #######################################
 # Shared options  (общее для моделей) #
@@ -18,66 +20,6 @@ class Address(models.Model):
     class Meta:
         verbose_name = 'Складской адрес'
         verbose_name_plural = 'Складские адреса'
-
-
-# Additional options (дополнительные карманы и их размеры, прочие опции)
-class Option(models.Model):
-    option = models.CharField(max_length=50, blank=True)
-
-    def __str__(self):
-        return self.option
-
-    class Meta:
-        verbose_name = 'Дополнительные опции (доп. карманы, размеры доп. карманов, габариты)'
-        verbose_name_plural = 'Дополнительная опция (карман, размер и т.д.)'
-
-
-# Department (номер отдела)
-class Department(models.Model):
-    department = models.SmallIntegerField(verbose_name='Номер отдела')
-
-    def __str__(self):
-        return self.department
-
-    class Meta:
-        verbose_name = 'Номер отдела'
-        verbose_name_plural = 'Номера отделов'
-
-
-# Format (А2 - А6 и т.д.)
-class Format(models.Model):
-    format = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.format
-
-    class Meta:
-        verbose_name = 'Формат бумаги (включая нестандартные)'
-        verbose_name_plural = 'Форматы бумаги (включая нестандартные)'
-
-
-# Orientation (ориентация горизонтальная или вертикальная)
-class Orientation(models.Model):
-    orientation = models.CharField(max_length=14)
-
-    def __str__(self):
-        return self.orientation
-
-    class Meta:
-        verbose_name = 'Ориентация бумаги'
-        verbose_name_plural = 'Ориентации бумаги'
-
-
-# Type (подвесной, клейкий, магнитный и т.д.)
-class Type(models.Model):
-    type = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.type
-
-    class Meta:
-        verbose_name = 'Тип'
-        verbose_name_plural = 'Типы'
 
 
 # Shop number (номер магазина)
@@ -104,6 +46,7 @@ class Warehouse(models.Model):
         verbose_name_plural = 'Склады'
 
 
+# Shared Option Main Model (Опции общие для всех материалов)
 class SharedOption(models.Model):
     warehouse = models.ForeignKey(Warehouse, on_delete=models.SET_NULL, null=True, verbose_name='Склад')
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True,
@@ -115,12 +58,61 @@ class SharedOption(models.Model):
 # Pockets class section #
 #########################
 
+# PocketFormat (А2 - А6 и т.д.)
+class PocketFormat(models.Model):
+    format = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.format
+
+    class Meta:
+        verbose_name = 'Формат кармана'
+        verbose_name_plural = 'Форматы карманов'
+
+
+# Additional options (дополнительные карманы и их размеры, прочие опции)
+class PocketOption(models.Model):
+    option = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        return self.option
+
+    class Meta:
+        verbose_name = 'Дополнительные опции (доп. карманы, размеры доп. карманов, габариты)'
+        verbose_name_plural = 'Дополнительная опция (карман, размер и т.д.)'
+
+
+# Orientation (ориентация горизонтальная или вертикальная)
+class PocketOrientation(models.Model):
+    orientation = models.CharField(max_length=14)
+
+    def __str__(self):
+        return self.orientation
+
+    class Meta:
+        verbose_name = 'Ориентация кармана'
+        verbose_name_plural = 'Ориентация карманов'
+
+
+# PocketType (подвесной, клейкий, магнитный и т.д.)
+class PocketType(models.Model):
+    type = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        verbose_name = 'Тип'
+        verbose_name_plural = 'Типы'
+
+
 # Pocket Main Model (описание основной модели карманов)
 class Pocket(SharedOption):
-    type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True, verbose_name='Тип', related_name='pockets')
-    format = models.ForeignKey(Format, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
-    orientation = models.ForeignKey(Orientation, on_delete=models.SET_NULL, null=True, verbose_name='Ориентация')
-    option = models.ForeignKey(Option, on_delete=models.SET_NULL, null=True, blank=True,
+    type = models.ForeignKey(PocketType, on_delete=models.SET_NULL, null=True, verbose_name='Тип кармана')
+    format = models.ForeignKey(PocketFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат кармана')
+    orientation = models.ForeignKey(PocketOrientation, on_delete=models.SET_NULL, null=True,
+                                    verbose_name='Ориентация кармана')
+    option = models.ForeignKey(PocketOption, on_delete=models.SET_NULL, null=True, blank=True,
                                verbose_name='Дополнительные опции')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/pockets', blank=True, verbose_name='Изображение')
@@ -153,38 +145,76 @@ class Pocket(SharedOption):
 
 # Price holder format (DBR20, DBR60, KE39 и т.д.)
 class PriceHolderFormat(models.Model):
-    priceholderformat = models.CharField(max_length=15)
+    format = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.priceholderformat
+        return self.format
 
     class Meta:
-        verbose_name = 'Формат ценникодержателя'
+        verbose_name = 'Формат ценникодержателя (DBR20, DBR60 и т.д.)'
         verbose_name_plural = 'Форматы ценникодержателей (DBR20, DBR60 и т.д.)'
+
+
+# Price holder height (высота ценникодержателя)
+class PriceHolderHeight(models.Model):
+    height = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.height
+
+    class Meta:
+        verbose_name = 'Высота ценникодержателя'
+        verbose_name_plural = 'Высота ценникодержателей'
+
+
+# Price holder type (тип ценникодержателя подвесной, клейкий, магнитный и т.д.)
+class PriceHolderType(models.Model):
+    type = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        verbose_name = 'Тип ценникодержателя'
+        verbose_name_plural = 'Типы ценникодержателя'
+
+
+# Price holder wight (ширина ценникодержателя)
+class PriceHolderWight(models.Model):
+    widht = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.widht
+
+    class Meta:
+        verbose_name = 'Ширина ценникодержателя'
+        verbose_name_plural = 'Ширина ценникодержателей'
 
 
 # Price Holder Main Model (описание основной модели ценникодержателей)
 class PriceHolder(SharedOption):
-    type = models.ForeignKey(Type, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
+    type = models.ForeignKey(PriceHolderType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
     format = models.ForeignKey(PriceHolderFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
-    option = models.ForeignKey(Option, on_delete=models.SET_NULL, null=True, verbose_name='Дополнительные опции')
+    height = models.ForeignKey(PriceHolderHeight, on_delete=models.SET_NULL, null=True, verbose_name='Высота')
+    wight = models.ForeignKey(PriceHolderWight, on_delete=models.SET_NULL, null=True, verbose_name='Ширина')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/priceholders', blank=True, verbose_name='Изображение')
 
     def __str__(self):
-        if self.option is None:
+        if self.wight and self.height is None:
             return '{} {}, находится - {}, количество - {}'.format(self.type,
                                                                    self.format,
                                                                    self.warehouse,
                                                                    self.quantity
                                                                    )
         else:
-            return '{} {} {}, находится - {}, количество - {}'.format(self.type,
-                                                                      self.format,
-                                                                      self.option,
-                                                                      self.warehouse,
-                                                                      self.quantity
-                                                                      )
+            return '{} {} высота {} ширина {}, находится - {}, количество - {}'.format(self.type,
+                                                                                       self.format,
+                                                                                       self.height,
+                                                                                       self.wight,
+                                                                                       self.warehouse,
+                                                                                       self.quantity
+                                                                                       )
 
     class Meta:
         verbose_name = 'Ценникодержатель'
@@ -195,13 +225,24 @@ class PriceHolder(SharedOption):
 # PricePaper class section #
 ############################
 
+# Price paper format (формат бумаги для ценников)
+class PricePaperFormat(models.Model):
+    format = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.format
+
+    class Meta:
+        verbose_name = 'Формат бумаги для ценников (А2, А3 и т.д.)'
+        verbose_name_plural = 'Форматы бумаги для ценников (А2, А3 и т.д.)'
+
 
 # Paper type (Фейсинги, Оффсеты и т.д.)
 class PricePaperType(models.Model):
-    papertype = models.CharField(max_length=20)
+    type = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.papertype
+        return self.type
 
     class Meta:
         verbose_name = 'Тип бумаги для ценников'
@@ -211,7 +252,7 @@ class PricePaperType(models.Model):
 # Price Paper Main Model (описание основной модели)
 class PricePaper(SharedOption):
     type = models.ForeignKey(PricePaperType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
-    format = models.ForeignKey(Format, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
+    format = models.ForeignKey(PricePaperFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/pricepapers', blank=True, verbose_name='Изображение')
 
@@ -231,6 +272,30 @@ class PricePaper(SharedOption):
 # PlasticHolder class section #
 ###############################
 
+# Plastic holder orientation (ориентация горизонтальная или вертикальная)
+class PlasticHolderOrientation(models.Model):
+    orientation = models.CharField(max_length=14)
+
+    def __str__(self):
+        return self.orientation
+
+    class Meta:
+        verbose_name = 'Ориентация пластикового держателя'
+        verbose_name_plural = 'Ориентация пластиковых держателей'
+
+
+# Plastic holder position (настенный, настольный)
+class PlasticHolderPosition(models.Model):
+    position = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.position
+
+    class Meta:
+        verbose_name = 'Тип размещения пластикового держателя'
+        verbose_name_plural = 'Типы размещения пластикового держателя'
+
+
 # Plastic holder type (виды держателей)
 class PlasticHolderType(models.Model):
     type = models.CharField(max_length=20)
@@ -243,22 +308,10 @@ class PlasticHolderType(models.Model):
         verbose_name_plural = 'Типы пластиковых держателей'
 
 
-# Plastic holder position (настенный, настольный, наполный)
-class PlasticHolderPosition(models.Model):
-    position = models.CharField(max_length=15)
-
-    def __str__(self):
-        return self.position
-
-    class Meta:
-        verbose_name = 'Тип размещения пластикового держателя'
-        verbose_name_plural = 'Типы размещений пластиковых держателей'
-
-
 # Plastic Holder Main Model
 class PlasticHolder(SharedOption):
     type = models.ForeignKey(PlasticHolderType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
-    orientation = models.ForeignKey(Orientation, on_delete=models.SET_NULL, null=True, verbose_name='Ориентация')
+    orientation = models.ForeignKey(PlasticHolderOrientation, on_delete=models.SET_NULL, null=True, verbose_name='Ориентация')
     position = models.ForeignKey(PlasticHolderPosition, on_delete=models.SET_NULL, null=True, blank=True,
                                  verbose_name='Размещение')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
@@ -289,8 +342,8 @@ class OtherType(models.Model):
         return self.type
 
     class Meta:
-        verbose_name = 'Прочее - тип'
-        verbose_name_plural = 'Прочее - типы'
+        verbose_name = 'Прочее - тип (держатели, для стрелок, для профиля и т.д.)'
+        verbose_name_plural = 'Прочее - типы (держатели, для стрелок, для профиля и т.д.)'
 
 
 # Other name (наименование)

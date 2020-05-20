@@ -6,33 +6,12 @@ from .models import *
 #######################
 # Shared Options Admin#
 #######################
-
 @admin.register(Address)
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Format)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Option)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Orientation)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(Shop)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Type)
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
@@ -45,7 +24,6 @@ class AuthorAdmin(admin.ModelAdmin):
 ################
 # Pocket Admin #
 ################
-
 @admin.register(Pocket)
 class PocketInstanseAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
@@ -54,12 +32,6 @@ class PocketInstanseAdmin(admin.ModelAdmin):
 ######################
 # Price Holder Admin #
 ######################
-
-@admin.register(PriceHolderFormat)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(PriceHolder)
 class PriceHolderInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
@@ -68,12 +40,6 @@ class PriceHolderInstanceAdmin(admin.ModelAdmin):
 #####################
 # Price Paper Admin #
 #####################
-
-@admin.register(PricePaperType)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(PricePaper)
 class PricePaperInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
@@ -82,17 +48,6 @@ class PricePaperInstanceAdmin(admin.ModelAdmin):
 ######################
 # Price Holder Admin #
 ######################
-
-@admin.register(PlasticHolderType)
-class PriceHolderAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(PlasticHolderPosition)
-class PlasticHolderPosition(admin.ModelAdmin):
-    pass
-
-
 @admin.register(PlasticHolder)
 class PlasticHolderInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
@@ -101,16 +56,6 @@ class PlasticHolderInstanceAdmin(admin.ModelAdmin):
 ######################
 # Price Holder Admin #
 ######################
-
-@admin.register(OtherType)
-class OtherTypeAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(OtherName)
-class OtherNamePosition(admin.ModelAdmin):
-    pass
-
 
 @admin.register(Other)
 class OtherInstanceAdmin(admin.ModelAdmin):
