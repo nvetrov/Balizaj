@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+	<title></title>
+</head>
+<body>
+<nav class="container">
+    <ul>
+        {% block data %}
+        {% endblock %}
+        {% block buttons %}
+            <div class="nav_buttons">
+                <li><a class="green" href="#">В корзину</a></li>
+                <li><a class="green" href="/client">Главное меню</a></li>
+            </div>
+        {% endblock %}
+    </ul>
+</nav>
+    <footer>
+        <p>LM LocDev  <img src="{% static 'images/Logo_LM.svg' %}" height="50px"></p>
+    </footer>
+</body>
+</html>

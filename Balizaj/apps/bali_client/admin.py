@@ -2,21 +2,10 @@ from django.contrib import admin
 from .models import *
 
 
-# Register your models here.
 #######################
 # Shared Options Admin#
 #######################
-@admin.register(Address)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Shop)
-class AuthorAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Warehouse)
+@admin.register(Address, Warehouse, Shop)
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
@@ -24,14 +13,24 @@ class AuthorAdmin(admin.ModelAdmin):
 ################
 # Pocket Admin #
 ################
+@admin.register(PocketFormat, PocketOrientation, PocketOption, PocketType)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Pocket)
-class PocketInstanseAdmin(admin.ModelAdmin):
+class PocketInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
 
 
 ######################
 # Price Holder Admin #
 ######################
+@admin.register(PriceHolderFormat, PriceHolderHeight, PriceHolderType, PriceHolderWight)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(PriceHolder)
 class PriceHolderInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
@@ -40,14 +39,24 @@ class PriceHolderInstanceAdmin(admin.ModelAdmin):
 #####################
 # Price Paper Admin #
 #####################
+@admin.register(PricePaperFormat, PricePaperType)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(PricePaper)
 class PricePaperInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
 
 
-######################
-# Price Holder Admin #
-######################
+########################
+# Plastic Holder Admin #
+########################
+@admin.register(PlasticHolderOrientation, PlasticHolderPosition, PlasticHolderType)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(PlasticHolder)
 class PlasticHolderInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse')
@@ -56,6 +65,10 @@ class PlasticHolderInstanceAdmin(admin.ModelAdmin):
 ######################
 # Price Holder Admin #
 ######################
+@admin.register(OtherName, OtherType)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
 
 @admin.register(Other)
 class OtherInstanceAdmin(admin.ModelAdmin):

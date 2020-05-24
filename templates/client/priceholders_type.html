@@ -1,0 +1,7 @@
+{% extends 'client/choise_template.html' %}
+{% block data %}
+    <h2>Тип держателя</h2>
+        {% for type in type_data %}
+            <li><a class="green" href="priceholders/{{ type.id }}">{{ type.type }}</a></li>
+        {% endfor %}
+{% endblock %}

@@ -1,5 +1,6 @@
-    from django.apps import AppConfig
+from django.apps import AppConfig
 
 
 class BaliClientConfig(AppConfig):
-    name = 'bali_client'
+    name = 'Balizaj.apps.bali_client'
+    verbose_name = 'Материалы'

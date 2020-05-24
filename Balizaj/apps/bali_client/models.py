@@ -117,22 +117,27 @@ class Pocket(SharedOption):
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/pockets', blank=True, verbose_name='Изображение')
 
+    def getImage(self):
+        if not self.image:
+            # depending on your template
+            return 'images/Default.jpg'
+        else:
+            return self.image
+
     def __str__(self):
         if self.option is None:
-            return '{} {} {}, находится - {}, количество - {}'.format(self.type,
-                                                                      self.format,
-                                                                      self.orientation,
-                                                                      self.warehouse,
-                                                                      self.quantity
-                                                                      )
+            return '{} {} {}'.format(self.type,
+                                     self.format,
+                                     self.orientation
+                                     )
         else:
-            return '{} {} {} {}, находится - {}, количество - {}'.format(self.type,
-                                                                         self.format,
-                                                                         self.orientation,
-                                                                         self.option,
-                                                                         self.warehouse,
-                                                                         self.quantity
-                                                                         )
+            return '{} {} {} {}'.format(self.type,
+                                        self.format,
+                                        self.orientation,
+                                        self.option,
+                                        self.warehouse,
+                                        self.quantity
+                                        )
 
     class Meta:
         verbose_name = 'Карман'
@@ -200,21 +205,26 @@ class PriceHolder(SharedOption):
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/priceholders', blank=True, verbose_name='Изображение')
 
+    def getImage(self):
+        if not self.image:
+            # depending on your template
+            return 'images/Default.jpg'
+        else:
+            return self.image
+
     def __str__(self):
         if self.wight and self.height is None:
-            return '{} {}, находится - {}, количество - {}'.format(self.type,
-                                                                   self.format,
-                                                                   self.warehouse,
-                                                                   self.quantity
-                                                                   )
+            return '{} {}'.format(self.type,
+                                  self.format,
+                                  )
         else:
-            return '{} {} высота {} ширина {}, находится - {}, количество - {}'.format(self.type,
-                                                                                       self.format,
-                                                                                       self.height,
-                                                                                       self.wight,
-                                                                                       self.warehouse,
-                                                                                       self.quantity
-                                                                                       )
+            return '{} {} высота {} ширина {}'.format(self.type,
+                                                      self.format,
+                                                      self.height,
+                                                      self.wight,
+                                                      self.warehouse,
+                                                      self.quantity
+                                                      )
 
     class Meta:
         verbose_name = 'Ценникодержатель'
@@ -256,12 +266,17 @@ class PricePaper(SharedOption):
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/pricepapers', blank=True, verbose_name='Изображение')
 
+    def getImage(self):
+        if not self.image:
+            # depending on your template
+            return 'images/Default.jpg'
+        else:
+            return self.image
+
     def __str__(self):
-        return '{} {}, находится - {}, количество - {}'.format(self.type,
-                                                               self.format,
-                                                               self.warehouse,
-                                                               self.quantity
-                                                               )
+        return '{} {}'.format(self.type,
+                              self.format,
+                              )
 
     class Meta:
         verbose_name = 'Бумага для ценников'
@@ -311,19 +326,25 @@ class PlasticHolderType(models.Model):
 # Plastic Holder Main Model
 class PlasticHolder(SharedOption):
     type = models.ForeignKey(PlasticHolderType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
-    orientation = models.ForeignKey(PlasticHolderOrientation, on_delete=models.SET_NULL, null=True, verbose_name='Ориентация')
+    orientation = models.ForeignKey(PlasticHolderOrientation, on_delete=models.SET_NULL, null=True,
+                                    verbose_name='Ориентация')
     position = models.ForeignKey(PlasticHolderPosition, on_delete=models.SET_NULL, null=True, blank=True,
                                  verbose_name='Размещение')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/plasticholders', blank=True, verbose_name='Изображение')
 
+    def getImage(self):
+        if not self.image:
+            # depending on your template
+            return 'images/Default.jpg'
+        else:
+            return self.image
+
     def __str__(self):
-        return '{} {} {}, находится - {}, количество - {}'.format(self.type,
-                                                                  self.orientation,
-                                                                  self.position,
-                                                                  self.warehouse,
-                                                                  self.quantity
-                                                                  )
+        return '{} {} {}'.format(self.type,
+                                 self.orientation,
+                                 self.position,
+                                 )
 
     class Meta:
         verbose_name = 'Пластиковый держатель'
@@ -333,6 +354,17 @@ class PlasticHolder(SharedOption):
 #######################
 # Other class section #
 #######################
+# Other name (наименование)
+class OtherName(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Прочее - полное наименование'
+        verbose_name_plural = 'Прочее - полные наименования'
+
 
 # Other type (виды разных держателей и т.д.)
 class OtherType(models.Model):
@@ -346,18 +378,6 @@ class OtherType(models.Model):
         verbose_name_plural = 'Прочее - типы (держатели, для стрелок, для профиля и т.д.)'
 
 
-# Other name (наименование)
-class OtherName(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Прочее - полное наименование'
-        verbose_name_plural = 'Прочее - полные наименования'
-
-
 # Other Main Model (основная модель)
 class Other(SharedOption):
     type = models.ForeignKey(OtherType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
@@ -365,12 +385,17 @@ class Other(SharedOption):
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
     image = models.ImageField(upload_to='images/others', blank=True, verbose_name='Изображение')
 
+    def getImage(self):
+        if not self.image:
+            # depending on your template
+            return 'images/Default.jpg'
+        else:
+            return self.image
+
     def __str__(self):
-        return '{} {}, находится - {}, количество - {}'.format(self.type,
-                                                               self.name,
-                                                               self.warehouse,
-                                                               self.quantity
-                                                               )
+        return '{} {}'.format(self.type,
+                              self.name,
+                              )
 
     class Meta:
         verbose_name = 'Прочее'
