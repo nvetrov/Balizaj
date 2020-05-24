@@ -1,20 +1,52 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>{{ material_name }}</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="{% static 'css/material_style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+	<title></title>
 </head>
 <body>
-    <h2>{{ material_name }}</h2>
-    <div class="list-group">
-    {% for material in materials %}
-        <p class="list-group-item">{{ material }} <img src="/media/{{ material.getImage }}"></p>
-    {% endfor %}
+    <nav class="container">
+        {% for material in materials %}
+        <div class="material-block">
+            <div class="upper-block">
+                <h4>{{ material }}</h4>
+            </div>
+            <div class="middle-block">
+                <div class="image" style="background: url(/media/{{ material.getImage }}) no-repeat;
+                                          background-size: contain;
+                                          background-position: center;
+                                          border: 1px black double;
+                                          opacity: 0.2">
+                </div>
+                <div class="buttons">
+                    <button class="button">+</button>
+                    <input class="form" pattern="^[ 0-9]+$" placeholder="0">
+                    <button class="button">-</button>
+                </div>  
+            </div>
+            <div class="lower-block">
+                <div class="lower-left">
+                    <h4>Доступно к списанию - {{ material.quantity }} шт.</h4>
+                </div>
+                <div class="lower-right">
+                    <button class="button">Добавить</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </nav>
+    <footer>
+        <div class="nav-buttons">
+            <li><a class="nav-button" href="#">В корзину</a></li>
+            <li><a class="nav-button" href="/client">Главное меню</a></li>
+        </div>
+        <div class="description">
+            <p>LM LocDev  <img src="{% static 'images/Logo_LM.svg' %}" height="30px"></p>
+        </div>
+    </footer>
 </body>
 </html>
