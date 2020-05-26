@@ -19,21 +19,29 @@
                 <div class="image" style="background: url(/media/{{ material.getImage }}) no-repeat;
                                           background-size: contain;
                                           background-position: center;
-                                          border: 1px black double;
-                                          opacity: 0.2">
+                                          border: 1px black double">
                 </div>
                 <div class="buttons">
-                    <button class="button">+</button>
-                    <input class="form" pattern="^[ 0-9]+$" placeholder="0">
-                    <button class="button">-</button>
-                </div>  
+                    <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+                    <form method="POST" id="{{ material.id }}">
+                    {% csrf_token %}
+                    {% if material.quantity <= 100 %}
+                        <input class="form output{{ material.id }}" form="{{ material.id }}" name="to_delete" type="number" min="0" max="{{ material.quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                    {% else %}
+                        <input class="form output{{ material.id }}" form="{{ material.id }}" name="to_delete" type="number" min="0" max="100" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                    {% endif %}
+                    <input type="hidden" name="quantity" form="{{ material.id }}" value="{{ material.quantity }}">
+                    <input type="hidden" name="type" form="{{ material.id }}" value="{{ material.id }}">
+                    </form>
+                    <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
+                </div>
             </div>
             <div class="lower-block">
                 <div class="lower-left">
                     <h4>Доступно к списанию - {{ material.quantity }} шт.</h4>
                 </div>
                 <div class="lower-right">
-                    <button class="button">Добавить</button>
+                    <button class="button" type="submit" form="{{ material.id }}" onclick="alert('{{ material }} добавлен в корзину')">Добавить</button>
                 </div>
             </div>
         </div>

@@ -1,9 +1,8 @@
 from django.db.models import QuerySet
 from django.shortcuts import render, redirect
 from django.template import loader
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from .models import *
-
 
 # Create your views here.
 from .models import Pocket
@@ -52,4 +51,11 @@ def pockets(request, name, type_id):
             }
     template = loader.get_template('client/materials.html')
     type_data = {'materials': dict[name][0], 'material_name': dict[name][1]}
+    if request.method == 'POST':
+        print(request.POST)
+        print(request.POST['type'])
+        print(dict[name][0])
+        object = dict[name][0].get(id=request.POST['type'])
+        object.quantity -= int(request.POST['to_delete'])
+        object.save()
     return HttpResponse(template.render(type_data, request))
