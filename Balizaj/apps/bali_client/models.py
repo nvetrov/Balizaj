@@ -115,6 +115,8 @@ class Pocket(SharedOption):
     option = models.ForeignKey(PocketOption, on_delete=models.SET_NULL, null=True, blank=True,
                                verbose_name='Дополнительные опции')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
+    cart_quantity = models.SmallIntegerField(default=0, verbose_name='Доступно для списания')
+    cart_count = models.SmallIntegerField(default=0, verbose_name='В корзине')
     image = models.ImageField(upload_to='images/pockets', blank=True, verbose_name='Изображение')
 
     def getImage(self):
