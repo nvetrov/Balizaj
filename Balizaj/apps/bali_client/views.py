@@ -43,19 +43,25 @@ def other_type(request):
 
 
 def pockets(request, name, type_id):
-    dict = {'pockets': [Pocket.objects.filter(type=type_id), 'Карманы'],
+    materials_dict = {'pockets': [Pocket.objects.filter(type=type_id), 'Карманы'],
             'priceholders': [PriceHolder.objects.filter(type=type_id), 'Ценникодержатели'],
             'plastikholders': [PlasticHolder.objects.filter(type=type_id), 'Пластиковые держатели'],
             'pricepaper': [PricePaper.objects.filter(type=type_id), 'Бумага'],
             'others': [Other.objects.filter(type=type_id), 'Прочее']
             }
     template = loader.get_template('client/materials.html')
-    type_data = {'materials': dict[name][0], 'material_name': dict[name][1]}
+    type_data = {'materials': materials_dict[name][0], 'material_name': materials_dict[name][1]}
     if request.method == 'POST':
         print(request.POST)
-        print(request.POST['type'])
-        print(dict[name][0])
-        object = dict[name][0].get(id=request.POST['type'])
-        object.quantity -= int(request.POST['to_delete'])
-        object.save()
+        cart_object = materials_dict[name][0].get(id=request.POST['type'])
+        cart_object.cart_quantity -= int(request.POST['to_delete'])
+        cart_object.cart_count += int(request.POST['to_delete'])
+        print(cart_object.cart_quantity)
+        cart_object.save()
+        return HttpResponse(template.render(type_data, request))
+    for item in materials_dict[name][0]:
+        if item.cart_quantity == 0:
+            item.cart_quantity = item.quantity
+            item.save()
+        print(item.cart_quantity)
     return HttpResponse(template.render(type_data, request))

@@ -10,7 +10,7 @@
 </head>
 <body>
     <nav class="container">
-        {% for material in materials %}
+        {% for material in materials%}
         <div class="material-block">
             <div class="upper-block">
                 <h4>{{ material }}</h4>
@@ -38,10 +38,10 @@
             </div>
             <div class="lower-block">
                 <div class="lower-left">
-                    <h4>Доступно к списанию - {{ material.quantity }} шт.</h4>
+                    <h4>Доступно к списанию - {{ material.quantity }} - {{ material.cart_quantity }}шт.</h4>
                 </div>
                 <div class="lower-right">
-                    <button class="button" type="submit" form="{{ material.id }}" onclick="alert('{{ material }} добавлен в корзину')">Добавить</button>
+                    <button class="button" type="submit" form="{{ material.id }}">Добавить</button>
                 </div>
             </div>
         </div>
