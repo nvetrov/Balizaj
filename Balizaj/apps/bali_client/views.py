@@ -66,3 +66,4 @@ def materials(request, name, type_id):
 
 def cart (request):
     template = loader.get_template('client/cart.html')
+    data = =
