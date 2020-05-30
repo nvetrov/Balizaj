@@ -42,7 +42,7 @@ def other_type(request):
     return HttpResponse(template.render(type_data, request))
 
 
-def pockets(request, name, type_id):
+def materials(request, name, type_id):
     materials_dict = {'pockets': [Pocket.objects.filter(type=type_id), 'Карманы'],
             'priceholders': [PriceHolder.objects.filter(type=type_id), 'Ценникодержатели'],
             'plastikholders': [PlasticHolder.objects.filter(type=type_id), 'Пластиковые держатели'],
@@ -52,11 +52,9 @@ def pockets(request, name, type_id):
     template = loader.get_template('client/materials.html')
     type_data = {'materials': materials_dict[name][0], 'material_name': materials_dict[name][1]}
     if request.method == 'POST':
-        print(request.POST)
         cart_object = materials_dict[name][0].get(id=request.POST['type'])
-        cart_object.cart_quantity -= int(request.POST['to_delete'])
-        cart_object.cart_count += int(request.POST['to_delete'])
-        print(cart_object.cart_quantity)
+        cart_object.cart_quantity -= int(request.POST['to_cart'])
+        cart_object.cart_count += int(request.POST['to_cart'])
         cart_object.save()
         return HttpResponse(template.render(type_data, request))
     for item in materials_dict[name][0]:
@@ -65,3 +63,6 @@ def pockets(request, name, type_id):
             item.save()
         print(item.cart_quantity)
     return HttpResponse(template.render(type_data, request))
+
+def cart (request):
+    template = loader.get_template('client/cart.html')

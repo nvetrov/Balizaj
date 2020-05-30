@@ -205,6 +205,8 @@ class PriceHolder(SharedOption):
     height = models.ForeignKey(PriceHolderHeight, on_delete=models.SET_NULL, null=True, verbose_name='Высота')
     wight = models.ForeignKey(PriceHolderWight, on_delete=models.SET_NULL, null=True, verbose_name='Ширина')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
+    cart_quantity = models.SmallIntegerField(default=0, verbose_name='Доступно для списания')
+    cart_count = models.SmallIntegerField(default=0, verbose_name='В корзине')
     image = models.ImageField(upload_to='images/priceholders', blank=True, verbose_name='Изображение')
 
     def getImage(self):
@@ -266,6 +268,8 @@ class PricePaper(SharedOption):
     type = models.ForeignKey(PricePaperType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
     format = models.ForeignKey(PricePaperFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
+    cart_quantity = models.SmallIntegerField(default=0, verbose_name='Доступно для списания')
+    cart_count = models.SmallIntegerField(default=0, verbose_name='В корзине')
     image = models.ImageField(upload_to='images/pricepapers', blank=True, verbose_name='Изображение')
 
     def getImage(self):
@@ -333,6 +337,8 @@ class PlasticHolder(SharedOption):
     position = models.ForeignKey(PlasticHolderPosition, on_delete=models.SET_NULL, null=True, blank=True,
                                  verbose_name='Размещение')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
+    cart_quantity = models.SmallIntegerField(default=0, verbose_name='Доступно для списания')
+    cart_count = models.SmallIntegerField(default=0, verbose_name='В корзине')
     image = models.ImageField(upload_to='images/plasticholders', blank=True, verbose_name='Изображение')
 
     def getImage(self):
@@ -385,6 +391,8 @@ class Other(SharedOption):
     type = models.ForeignKey(OtherType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
     name = models.ForeignKey(OtherName, on_delete=models.SET_NULL, null=True, verbose_name='Наименование')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
+    cart_quantity = models.SmallIntegerField(default=0, verbose_name='Доступно для списания')
+    cart_count = models.SmallIntegerField(default=0, verbose_name='В корзине')
     image = models.ImageField(upload_to='images/others', blank=True, verbose_name='Изображение')
 
     def getImage(self):

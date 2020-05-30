@@ -8,5 +8,5 @@ urlpatterns = [
     path('plasticholders', views.plasticholders_type),
     path('pricepaper', views.pricepaper_type),
     path('other', views.other_type),
-    path('<name>/<int:type_id>/', views.pockets)
+    path('<name>/<int:type_id>/', views.materials)
 ]
