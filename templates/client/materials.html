@@ -26,7 +26,7 @@
                     <form method="POST" id="{{ material.id }}">
                     {% csrf_token %}
                     {% if material.quantity <= 100 %}
-                        <input class="form output{{ material.id }}" form="{{ material.id }}" name="to_cart" type="number" min="0" max="{{ material.quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                        <input class="form output{{ material.id }}" form="{{ material.id }}" name="to_cart" type="number" min="0" max="{{ material.cart_quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
                     {% else %}
                         <input class="form output{{ material.id }}" form="{{ material.id }}" name="to_cart" type="number" min="0" max="100" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
                     {% endif %}
