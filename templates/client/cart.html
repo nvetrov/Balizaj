@@ -1,10 +1,145 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="{% static '/css/cart_style.css' %}">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+	<title></title>
 </head>
 <body>
+    <nav class="container">
+        {% if pockets %}
+        <div class="material">
+            <h2>Карманы</h2>
+            <ul>
+                {% for pocket in pockets %}
+                    <form method="POST" id="{{ pocket.id }}">
+                    {% csrf_token %}
+                    <div class="cell">
+                        <div class="cell-top">
+                            <li>{{ pocket }}</li>
+                            <div class="cell-top-right">
+                                <h4>{{ pocket.cart_count }} шт.</h4>
+                                <input type="hidden" name="name" form="{{ pocket.id}}" value="pockets">
+                                <input type="hidden" name="id" form="{{ pocket.id}}" value="{{ pocket.id }}">
+                                <button class="button" type="submit" form="{{ pocket.id }}">Удалить</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    </form>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if priceholders %}
+        <div class="material">
+            <h2>Ценникодержатели</h2>
+            <ul>
+                {% for priceholder in priceholders %}
+                    <form method="POST" id="{{ priceholder.id }}">
+                    {% csrf_token %}
+                    <div class="cell">
+                        <div class="cell-top">
+                            <li>{{ priceholder }}</li>
+                            <div class="cell-top-right">
+                                <h4>{{ priceholder.cart_count }} шт.</h4>
+                                <input type="hidden" name="name" form="{{ priceholder.id}}" value="priceholders">
+                                <input type="hidden" name="id" form="{{ priceholder.id}}" value="{{ priceholder.id }}">
+                                <button class="button" type="submit" form="{{ priceholder.id }}">Удалить</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    </form>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if plasticholders %}
+        <div class="material">
+            <h2>Пластиковые держатели</h2>
+            <ul>
+                {% for plasticholder in plasticholders %}
+                    <form method="POST" id="{{ plasticholder.id }}">
+                    {% csrf_token %}
+                    <div class="cell">
+                        <div class="cell-top">
+                            <li>{{ plasticholder }}</li>
+                            <div class="cell-top-right">
+                                <h4>{{ plasticholder.cart_count }} шт.</h4>
+                                <input type="hidden" name="name" form="{{ plasticholder.id}}" value="plasticholders">
+                                <input type="hidden" name="id" form="{{ plasticholder.id}}" value="{{ plasticholder.id }}">
+                                <button class="button" type="submit" form="{{ plasticholder.id }}">Удалить</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    </form>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if pricepapers %}
+        <div class="material">
+            <h2>Бумага для ценников</h2>
+            <ul>
+                {% for pricepaper in pricepapers %}
+                    <form method="POST" id="{{ pricepaper.id }}">
+                    {% csrf_token %}
+                    <div class="cell">
+                        <div class="cell-top">
+                            <li>{{ pricepaper }}</li>
+                            <div class="cell-top-right">
+                                <h4>{{ pricepaper.cart_count }} шт.</h4>
+                                <input type="hidden" name="name" form="{{ pricepaper.id}}" value="plasticholders">
+                                <input type="hidden" name="id" form="{{ pricepaper.id}}" value="{{ pricepaper.id }}">
+                                <button class="button" type="submit" form="{{ pricepaper.id }}">Удалить</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    </form>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if others %}
+        <div class="material">
+            <h2>Разное</h2>
+            <ul>
+                {% for other in others %}
+                    <form method="POST" id="{{ other.id }}">
+                    {% csrf_token %}
+                    <div class="cell">
+                        <div class="cell-top">
+                            <li>{{ other }}</li>
+                            <div class="cell-top-right">
+                                <h4>{{ other.cart_count }} шт.</h4>
+                                <input type="hidden" name="name" form="{{ other.id}}" value="others">
+                                <input type="hidden" name="id" form="{{ other.id}}" value="{{ other.id }}">
+                                <button class="button" type="submit" form="{{ other.id }}">Удалить</button>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    </form>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
+    </nav>
+    <footer>
+        <div class="nav-buttons">
+            <li><a class="nav-button" href="/client/write_off">Списать</a></li>
+            <li><a class="nav-button" href="/client">Главное меню</a></li>
+        </div>
+        <div class="description">
+            <p>LM LocDev  <img src="{% static '/images/Logo_LM.svg' %}" height="30px"></p>
+        </div>
+    </footer>
 </body>
 </html>
