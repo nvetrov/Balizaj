@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="{% static '/css/cart_style.css' %}">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-	<title></title>
+	<title>Корзина</title>
 </head>
 <body>
     <nav class="container">
@@ -94,7 +94,7 @@
                             <li>{{ pricepaper }}</li>
                             <div class="cell-top-right">
                                 <h4>{{ pricepaper.cart_count }} шт.</h4>
-                                <input type="hidden" name="name" form="{{ pricepaper.id}}" value="plasticholders">
+                                <input type="hidden" name="name" form="{{ pricepaper.id}}" value="pricepapers">
                                 <input type="hidden" name="id" form="{{ pricepaper.id}}" value="{{ pricepaper.id }}">
                                 <button class="button" type="submit" form="{{ pricepaper.id }}">Удалить</button>
                             </div>
@@ -130,8 +130,12 @@
             </ul>
         </div>
         {% endif %}
-
     </nav>
+    {% if not pockets and not priceholders and not plasticholders and not pricepapers and not others %}
+        <div class="empty-cart">
+            <h1>Корзина пуста</h1>
+        </div>
+    {% endif %}
     <footer>
         <div class="nav-buttons">
             <li><a class="nav-button" href="/client/write_off">Списать</a></li>

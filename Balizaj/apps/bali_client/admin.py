@@ -20,7 +20,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Pocket)
 class PocketInstanceAdmin(admin.ModelAdmin):
-    list_filter = ('shop', 'warehouse')
+    list_filter = ('shop', 'warehouse', 'type')
 
 
 ######################
@@ -33,7 +33,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(PriceHolder)
 class PriceHolderInstanceAdmin(admin.ModelAdmin):
-    list_filter = ('shop', 'warehouse')
+    list_filter = ('shop', 'warehouse', 'type')
 
 
 #####################
@@ -46,20 +46,20 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(PricePaper)
 class PricePaperInstanceAdmin(admin.ModelAdmin):
-    list_filter = ('shop', 'warehouse')
+    list_filter = ('shop', 'warehouse', 'type')
 
 
 ########################
 # Plastic Holder Admin #
 ########################
-@admin.register(PlasticHolderOrientation, PlasticHolderPosition, PlasticHolderType)
+@admin.register(PlasticHolderOrientation, PlasticHolderPosition, PlasticHolderType, PlasticHolderFormat)
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(PlasticHolder)
 class PlasticHolderInstanceAdmin(admin.ModelAdmin):
-    list_filter = ('shop', 'warehouse')
+    list_filter = ('shop', 'warehouse', 'type')
 
 
 ######################
@@ -72,4 +72,4 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Other)
 class OtherInstanceAdmin(admin.ModelAdmin):
-    list_filter = ('shop', 'warehouse')
+    list_filter = ('shop', 'warehouse', 'type')

@@ -6,7 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" href="{% static 'css/material_style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-	<title></title>
+	<script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/materials.js' %}"></script>
+    <title>{{ material_name }}</title>
 </head>
 <body>
     <nav class="container">
@@ -49,7 +51,7 @@
     </nav>
     <footer>
         <div class="nav-buttons">
-            <li><a class="nav-button" href="/client/cart">В корзину</a></li>
+            <li><a class="nav-button" href="/client/cart">Корзина</a></li>
             <li><a class="nav-button" href="/client">Главное меню</a></li>
         </div>
         <div class="description">

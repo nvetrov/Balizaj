@@ -122,7 +122,7 @@ class Pocket(SharedOption):
     def getImage(self):
         if not self.image:
             # depending on your template
-            return 'images/Default.jpg'
+            return 'images/Default.png'
         else:
             return self.image
 
@@ -164,7 +164,7 @@ class PriceHolderFormat(models.Model):
 
 # Price holder height (высота ценникодержателя)
 class PriceHolderHeight(models.Model):
-    height = models.CharField(max_length=10)
+    height = models.CharField(max_length=10, verbose_name='Высота')
 
     def __str__(self):
         return self.height
@@ -188,7 +188,7 @@ class PriceHolderType(models.Model):
 
 # Price holder wight (ширина ценникодержателя)
 class PriceHolderWight(models.Model):
-    widht = models.CharField(max_length=10)
+    widht = models.CharField(max_length=10, verbose_name='Ширина')
 
     def __str__(self):
         return self.widht
@@ -293,9 +293,21 @@ class PricePaper(SharedOption):
 # PlasticHolder class section #
 ###############################
 
+# Plastic holder format (формат (А2, А3 и т.д.))
+class PlasticHolderFormat(models.Model):
+    format = models.CharField(max_length=10, verbose_name='Формат')
+
+    def __str__(self):
+        return self.format
+
+    class Meta:
+        verbose_name = 'Формат'
+        verbose_name_plural = 'Форматы'
+
+
 # Plastic holder orientation (ориентация горизонтальная или вертикальная)
 class PlasticHolderOrientation(models.Model):
-    orientation = models.CharField(max_length=14)
+    orientation = models.CharField(max_length=14, verbose_name='Ориентация')
 
     def __str__(self):
         return self.orientation
@@ -332,6 +344,7 @@ class PlasticHolderType(models.Model):
 # Plastic Holder Main Model
 class PlasticHolder(SharedOption):
     type = models.ForeignKey(PlasticHolderType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
+    format = models.ForeignKey(PlasticHolderFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
     orientation = models.ForeignKey(PlasticHolderOrientation, on_delete=models.SET_NULL, null=True,
                                     verbose_name='Ориентация')
     position = models.ForeignKey(PlasticHolderPosition, on_delete=models.SET_NULL, null=True, blank=True,
@@ -349,10 +362,17 @@ class PlasticHolder(SharedOption):
             return self.image
 
     def __str__(self):
-        return '{} {} {}'.format(self.type,
-                                 self.orientation,
-                                 self.position,
-                                 )
+        if self.position is None:
+            return '{} {} {}'.format(self.type,
+                                     self.format,
+                                     self.orientation,
+                                     )
+        else:
+            return '{} {} {} {}'.format(self.type,
+                                        self.format,
+                                        self.orientation,
+                                        self.position,
+                                        )
 
     class Meta:
         verbose_name = 'Пластиковый держатель'

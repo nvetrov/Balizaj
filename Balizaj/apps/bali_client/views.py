@@ -41,14 +41,15 @@ def other_type(request):
 
 
 def materials(request, name, type_id):
-    materials_dict = {'pockets': [Pocket.objects.filter(type=type_id), 'Карманы'],
+    materials_dict = {'pockets': [Pocket.objects.filter(type=type_id).order_by('-orientation', '-format'), 'Карманы'],
                       'priceholders': [PriceHolder.objects.filter(type=type_id), 'Ценникодержатели'],
-                      'plastikholders': [PlasticHolder.objects.filter(type=type_id), 'Пластиковые держатели'],
-                      'pricepaper': [PricePaper.objects.filter(type=type_id), 'Бумага'],
+                      'plasticholders': [PlasticHolder.objects.filter(type=type_id), 'Пластиковые держатели'],
+                      'pricepapers': [PricePaper.objects.filter(type=type_id), 'Бумага'],
                       'others': [Other.objects.filter(type=type_id), 'Прочее']
                       }
     template = loader.get_template('client/materials.html')
     type_data = {'materials': materials_dict[name][0], 'material_name': materials_dict[name][1]}
+
     if request.method == 'POST':
         if request.POST['to_cart'] == '':
             return HttpResponse(template.render(type_data, request))
@@ -62,16 +63,17 @@ def materials(request, name, type_id):
             cart_object.cart_count += int(request.POST['to_cart'])
         cart_object.save()
         return HttpResponse(template.render(type_data, request))
+
     for item in materials_dict[name][0]:
         if item.cart_quantity == 0:
             item.cart_quantity = item.quantity
             item.save()
-        print(item.cart_quantity)
+
     return HttpResponse(template.render(type_data, request))
 
 
 def material_dict():
-    pockets = Pocket.objects.exclude(cart_count=0).order_by('type', '-format', '-orientation')
+    pockets = Pocket.objects.exclude(cart_count=0).order_by('-type', '-format', '-orientation')
     pricholders = PriceHolder.objects.exclude(cart_count=0)
     plasticholders = PlasticHolder.objects.exclude(cart_count=0)
     pricepaper = PricePaper.objects.exclude(cart_count=0)
@@ -79,8 +81,8 @@ def material_dict():
     data = {'pockets': pockets,
             'priceholders': pricholders,
             'plasticholders': plasticholders,
-            'pricepaper': pricepaper,
-            'other': other}
+            'pricepapers': pricepaper,
+            'others': other}
     return data
 
 
