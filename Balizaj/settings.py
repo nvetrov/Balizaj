@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jquery',
+    'ldap3',
     'Balizaj.apps.bali_client',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

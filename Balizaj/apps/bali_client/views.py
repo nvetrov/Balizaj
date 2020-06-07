@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
 from .models import *
-
-from .models import Pocket
+from ldap3 import Server, Connection, SIMPLE, SYNC, ASYNC, SUBTREE, ALL
 
 
 def index(request):
@@ -106,3 +105,28 @@ def write_off(request):
             material.cart_quantity = 0
             material.save()
     return render(request, 'client/index.html', {})
+
+
+def auth(request):
+    from ldap3 import Server, Connection, SUBTREE
+    import json
+
+    AD_SERVER = '10.220.8.235'
+
+    AD_USER = '60075381@leroymerlin.ru'
+    AD_PASSWORD = '528465Aza!'
+    AD_SEARCH_TREE = 'dc=hq,dc=ru,dc=corp,dc=leroymerlin,dc=com'
+
+    server = Server(AD_SERVER)
+    conn = Connection(server, user=AD_USER, password=AD_PASSWORD)
+    print(conn.bind())
+    a = conn.search(AD_SEARCH_TREE, '(&(objectCategory=Person)(sAMAccountName=60075381))', SUBTREE,
+                    attributes=['sAMAccountName', 'physicalDeliveryOfficeName',
+                                'postOfficeBox'])
+    response = json.loads(conn.response_to_json())
+    result = conn.result
+    print(AD_USER.strip('@leroymerlin.ru'))
+    if len(response['entries']) < 1:
+        print('yummm')
+    print(response['entries'][0]['attributes'])
+    print(response)
