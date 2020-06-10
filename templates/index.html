@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="{% static '/css/index_style.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <title>Бализаж - учёт</title>
+</head>
+<body>
+    <nav class="container">
+        <div class="auth-block">
+            <div class="upper-block">
+                <h1>Введите LDAP и пароль</h1>
+            </div>
+            <div class="center-block">
+                <form method="POST" id="auth">
+                <div>
+                    <p>Login: </p>
+                    <p><input class="border" form="auth" name="login" placeholder="600XXXXX или bali001.magXXX"></p>
+                </div>
+                <div>
+                    <p>Password:</p>
+                    <p><input class="border" form="auth" name="password" type="password" placeholder="********"></p>
+                </div>
+                </form>
+            </div>
+            <div class="lower-block">
+                <button class="border green" type="submit" form="auth">Войти</button>
+            </div>
+        </div>
+    </nav>
+    <footer>
+        <p>LM LocDev  <img src="{% static '/images/Logo_LM.svg' %}" height="30px"></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,104 @@
+* body > * {
+	font-family: 'Roboto', sans-serif;
+	padding: 0px;
+}
+
+body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+nav{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center; 
+	align-items: center;
+	flex-direction: column;
+}
+
+.auth-block{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+}
+
+.center-block{
+	display: flex;
+	flex-direction: column;
+	height: 130px;
+    justify-content: space-between;
+}
+
+form{
+	height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.lower-block{
+	margin: 40px 0 0 0
+}
+
+p{
+	margin: 0px;
+	text-align: center;
+	padding: 0 0 5px 0;
+}
+
+input{
+	padding: 5px 0 5px 0;
+	text-align: center;
+	border: 2px solid rgb(33, 126, 74);
+	border-radius: 5px;
+	width: 210px;
+	font-family: 'Roboto', sans-serif;
+}
+
+button{
+	width: 210px;
+	height: 40px;
+	color: #FFF;
+}
+
+.border{
+	border: 2px solid rgb(33, 126, 74);
+	border-radius: 5px;
+}
+
+.green {
+	background-color: rgb(90, 176, 48);
+	transition: background-color 0.4s linear; 
+}
+        
+button.green:hover {
+	background-color: rgb(72, 140, 38);
+}
+
+footer{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding: 0px 10px 5px 0px;
+	font-size: 10px;
+}
+
+@media only screen and (max-width: 360px){
+h1{
+	font-size: large;
+	}
+}
+
+@media only screen and (max-width: 768px){
+h1{
+	font-size: large;
+	}
+}
+
+@media only screen and (max-width: 967px) {
+}
