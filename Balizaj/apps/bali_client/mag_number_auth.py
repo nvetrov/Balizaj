@@ -11,14 +11,7 @@ class Auth:
 
     def connect(self):
         conn = Connection(Server(Auth.server), user=self.login, password=self.password)
-        return conn.bind()
-
-    def search(self):
-        if self.connect():
+        if conn.bind():
             print('Yeap')
         else:
             print('Nope')
-
-a = Auth('60075381', '528465Aza!')
-
-a.search()

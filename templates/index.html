@@ -18,6 +18,7 @@
                 <form method="POST" id="auth">
                 <div>
                     <p>Login: </p>
+                    {% csrf_token %}
                     <p><input class="border" form="auth" name="login" placeholder="600XXXXX или bali001.magXXX"></p>
                 </div>
                 <div>
