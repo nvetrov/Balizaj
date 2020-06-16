@@ -31,7 +31,7 @@ SECRET_KEY = '4h-m!4qqq&)zp8a-se!!fudyhbi+@!#4#j^5au5*-puwk^r-0@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.68', '10.83.20.129']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.68', '10.83.20.87']
 
 # Application definition
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'Balizaj.apps.bali_client',
 ]
 
+AUTHENTICATION_BACKENDS = []
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
