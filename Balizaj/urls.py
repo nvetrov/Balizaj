@@ -21,7 +21,7 @@ from Balizaj.apps.bali_client import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.index),
+    path('', views.index),
     path('client/', include('Balizaj.apps.bali_client.urls')),
 ]
 

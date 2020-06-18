@@ -9,7 +9,9 @@
 	<title></title>
 </head>
 <body>
+{% csrf_token %}
 <nav class="container">
+    <h1>{{ profile }}</h1>
     <ul>
         {% block data %}
         {% endblock %}

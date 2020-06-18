@@ -2,9 +2,47 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
 from .models import *
+from django.contrib import auth
+from Balizaj.apps.bali_client.mag_number_auth import Auth
+from django.contrib.auth import login
+from django.shortcuts import redirect
 
 
 def index(request):
+    if request.method == 'POST':
+        print('POST')
+        login_user = (request.POST['login'])
+        password = (request.POST['password'])
+        user_auth = Auth(login_user, password)
+        if user_auth.user_valid():
+            print('valid')
+            user = auth.authenticate(username=login_user, password=password)
+            if user is not None:
+                print('not None')
+                user = User.objects.get(username=user_auth.login)
+                user.set_password(user_auth.password)
+                user.save()
+                login(request, user)
+            else:
+                user = User.objects.create_user(username=user_auth.login)
+                user.set_password(user_auth.password)
+                profile = UserProfile.objects.create(shop_verbose=user_auth.shop_verbose,
+                                                     shop_number=user_auth.shop_number,
+                                                     group=user_auth.group,
+                                                     user=user)
+                user.save()
+                profile.save()
+                login(request, user)
+            profile = UserProfile.objects.get(user=user)
+            data = {'profile': profile}
+            if profile.group == 'client':
+                template = loader.get_template('client/index.html')
+                return HttpResponse(template.render(data, request))
+
+            elif profile.group == 'bali':
+                template = loader.get_template('bali/index.html')
+                return HttpResponse(template.render(data, request))
+
     return render(request, 'index.html', {})
 
 
@@ -14,35 +52,52 @@ def client_index(request):
 
 def pockets_type(request):
     template = loader.get_template('client/pockets_type.html')
-    type_data = {'type_data': PocketType.objects.all()}
-    return HttpResponse(template.render(type_data, request))
+    profile = UserProfile.objects.get(user=request.user)
+    type_data = {'type_data': PocketType.objects.all(),
+                 'profile': profile}
+    if request.user.is_authenticated :
+        print('Yeap')
+        print(request.user)
+        return HttpResponse(template.render(type_data, request))
+    else:
+        print('Nope')
+        return redirect('/')
 
 
 def priceholders_type(request):
+    profile = UserProfile.objects.get(user=request.user)
     template = loader.get_template('client/priceholders_type.html')
-    type_data = {'type_data': PriceHolderType.objects.all()}
+    type_data = {'type_data': PriceHolderType.objects.all(),
+                 'profile': profile}
     return HttpResponse(template.render(type_data, request))
 
 
 def plasticholders_type(request):
+    profile = UserProfile.objects.get(user=request.user)
     template = loader.get_template('client/plasticholders_type.html')
-    type_data = {'type_data': PlasticHolderType.objects.all()}
+    type_data = {'type_data': PlasticHolderType.objects.all(),
+                 'profile': profile}
     return HttpResponse(template.render(type_data, request))
 
 
 def pricepaper_type(request):
+    profile = UserProfile.objects.get(user=request.user)
     template = loader.get_template('client/pricepaper_type.html')
-    type_data = {'type_data': PricePaperType.objects.all()}
+    type_data = {'type_data': PricePaperType.objects.all(),
+                 'profile': profile}
     return HttpResponse(template.render(type_data, request))
 
 
 def other_type(request):
+    profile = UserProfile.objects.get(user=request.user)
     template = loader.get_template('client/other_type.html')
-    type_data = {'type_data': OtherType.objects.all()}
+    type_data = {'type_data': OtherType.objects.all(),
+                 'profile': profile}
     return HttpResponse(template.render(type_data, request))
 
 
 def materials(request, name, type_id):
+    profile = UserProfile.objects.get(user=request.user)
     materials_dict = {'pockets': [Pocket.objects.filter(type=type_id).order_by('-orientation', '-format'), 'Карманы'],
                       'priceholders': [PriceHolder.objects.filter(type=type_id), 'Ценникодержатели'],
                       'plasticholders': [PlasticHolder.objects.filter(type=type_id), 'Пластиковые держатели'],
@@ -50,7 +105,9 @@ def materials(request, name, type_id):
                       'others': [Other.objects.filter(type=type_id), 'Прочее']
                       }
     template = loader.get_template('client/materials.html')
-    type_data = {'materials': materials_dict[name][0], 'material_name': materials_dict[name][1]}
+    type_data = {'materials': materials_dict[name][0],
+                 'material_name': materials_dict[name][1],
+                 'profile': profile}
 
     if request.method == 'POST':
         if request.POST['to_cart'] == '':
@@ -89,6 +146,7 @@ def material_dict():
 
 
 def cart(request):
+    profile = UserProfile.objects.get(user=request.user)
     template = loader.get_template('client/cart.html')
 
     if request.method == 'POST':
@@ -96,8 +154,9 @@ def cart(request):
         material.cart_count = 0
         material.cart_quantity = 0
         material.save()
-        material_dict()
-    return HttpResponse(template.render(material_dict(), request))
+    cart_materials = material_dict()
+    cart_materials['profile'] = profile
+    return HttpResponse(template.render(cart_materials, request))
 
 
 def write_off(request):
@@ -109,7 +168,3 @@ def write_off(request):
             material.save()
     return render(request, 'client/index.html', {})
 
-
-
-def auth(request):
-    pass

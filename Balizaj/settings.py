@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'Balizaj.apps.bali_client',
 ]
 
-AUTHENTICATION_BACKENDS = []
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend'
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

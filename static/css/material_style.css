@@ -26,6 +26,12 @@ nav{
     padding-bottom: 10px;
 }
 
+.shop{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+}
+
 .button{
     width: 80%;
     background-color: rgb(90, 176, 48);

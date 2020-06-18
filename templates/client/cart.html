@@ -10,6 +10,7 @@
 </head>
 <body>
     <nav class="container">
+        <h1>{{ profile }}</h1>
         {% if pockets %}
         <div class="material">
             <h2>Карманы</h2>
@@ -139,7 +140,7 @@
     <footer>
         <div class="nav-buttons">
             <li><a class="nav-button" href="/client/write_off">Списать</a></li>
-            <li><a class="nav-button" href="/client">Главное меню</a></li>
+            <li><a class="nav-button" href="/client/">Главное меню</a></li>
         </div>
         <div class="description">
             <p>LM LocDev  <img src="{% static '/images/Logo_LM.svg' %}" height="30px"></p>

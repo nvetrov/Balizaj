@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<link rel="stylesheet" href="{% static 'css/material_style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/material_style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 	<script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/materials.js' %}"></script>
@@ -12,6 +12,9 @@
 </head>
 <body>
     <nav class="container">
+        <div class="shop">
+            <h1>{{ profile }}</h1>
+        </div>
         {% for material in materials%}
         <div class="material-block">
             <div class="upper-block">

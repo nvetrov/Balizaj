@@ -1,6 +1,7 @@
 from ldap3 import Server, Connection, SUBTREE
 import json
 
+
 class Auth:
     __SERVER = 'ad.lmru.tech:389'
     __AD_TREE = 'OU=Leroy Merlin Vostok,DC=hq,DC=ru,DC=corp,DC=leroymerlin,DC=com'
@@ -10,6 +11,7 @@ class Auth:
         self.password = password
         self.shop_verbose = self.__connect()['physicalDeliveryOfficeName']
         self.shop_number = self.__connect()['postOfficeBox']
+        self.group = self.__group()
 
     def __connect(self, attr={}):
         conn = Connection(Server(self.__SERVER), user=self.login + '@leroymerlin.ru', password=self.password)
@@ -31,3 +33,14 @@ class Auth:
             return True
         else:
             return False
+
+    def __group(self):
+        self.group = ''
+        if self.user_valid():
+            group_attr = self.login
+            if group_attr[:11] == 'bali001.mag':
+                self.group = 'bali'
+                return self.group
+            else:
+                self.group = 'client'
+                return self.group

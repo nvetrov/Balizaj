@@ -1,14 +1,33 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.auth.models import User
+
+##########################################################################################
+#                                   User Profile Model                                   #
+##########################################################################################
+
+
+class UserProfile(models.Model):
+    shop_number = models.SmallIntegerField(verbose_name='Номер магазина')
+    shop_verbose = models.CharField(max_length=50, verbose_name='Название магазина')
+    group = models.CharField(max_length=10, null=True, verbose_name='Группа пользователя')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='LDAP')
+
+    def __str__(self):
+        return self.shop_verbose
+
+    class Meta():
+        verbose_name = 'Профиль пользователя'
+        verbose_name_plural = 'Профили пользователей'
 
 
 #########################################################################################
 #                          Material models (модели материалов)                          #
 #########################################################################################
 
-#######################################
-# Shared options  (общее для моделей) #
-#######################################
+##################################################
+# Shared options  (общее для моделей материалов) #
+##################################################
 
 # Address in warehouse (адрес на складе (если есть))
 class Address(models.Model):
