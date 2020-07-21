@@ -10,5 +10,6 @@ urlpatterns = [
     path('other', views.other_type),
     path('<name>/<int:type_id>/', views.materials),
     path('cart', views.cart),
-    path('write_off', views.write_off)
+    path('write_off', views.write_off),
+    path('choose_department', views.choose_department),
 ]

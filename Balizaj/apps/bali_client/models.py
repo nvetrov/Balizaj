@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 ##########################################################################################
 #                                   User Profile Model                                   #
 ##########################################################################################
@@ -11,7 +12,7 @@ class UserProfile(models.Model):
     shop_number = models.SmallIntegerField(verbose_name='Номер магазина')
     shop_verbose = models.CharField(max_length=50, verbose_name='Название магазина')
     group = models.CharField(max_length=10, null=True, verbose_name='Группа пользователя')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='LDAP')
+    user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='LDAP')
 
     def __str__(self):
         return self.shop_verbose
@@ -127,6 +128,7 @@ class PocketType(models.Model):
 
 # Pocket Main Model (описание основной модели карманов)
 class Pocket(SharedOption):
+    material_type = models.CharField(max_length=6, default='Карман', verbose_name='Карман')
     type = models.ForeignKey(PocketType, on_delete=models.SET_NULL, null=True, verbose_name='Тип кармана')
     format = models.ForeignKey(PocketFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат кармана')
     orientation = models.ForeignKey(PocketOrientation, on_delete=models.SET_NULL, null=True,
@@ -140,7 +142,6 @@ class Pocket(SharedOption):
 
     def getImage(self):
         if not self.image:
-            # depending on your template
             return 'images/Default.png'
         else:
             return self.image
@@ -219,6 +220,7 @@ class PriceHolderWight(models.Model):
 
 # Price Holder Main Model (описание основной модели ценникодержателей)
 class PriceHolder(SharedOption):
+    material_type = models.CharField(max_length=16, default='Ценникодержатель', verbose_name='Ценникодержатель')
     type = models.ForeignKey(PriceHolderType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
     format = models.ForeignKey(PriceHolderFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
     height = models.ForeignKey(PriceHolderHeight, on_delete=models.SET_NULL, null=True, verbose_name='Высота')
@@ -230,7 +232,6 @@ class PriceHolder(SharedOption):
 
     def getImage(self):
         if not self.image:
-            # depending on your template
             return 'images/Default.jpg'
         else:
             return self.image
@@ -284,6 +285,7 @@ class PricePaperType(models.Model):
 
 # Price Paper Main Model (описание основной модели)
 class PricePaper(SharedOption):
+    material_type = models.CharField(max_length=19, default='Бумага для ценников', verbose_name='Бумага для ценников')
     type = models.ForeignKey(PricePaperType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
     format = models.ForeignKey(PricePaperFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
@@ -293,7 +295,6 @@ class PricePaper(SharedOption):
 
     def getImage(self):
         if not self.image:
-            # depending on your template
             return 'images/Default.jpg'
         else:
             return self.image
@@ -362,6 +363,8 @@ class PlasticHolderType(models.Model):
 
 # Plastic Holder Main Model
 class PlasticHolder(SharedOption):
+    material_type = models.CharField(max_length=21, default='Пластиковый держатель',
+                                     verbose_name='Пластиковый держатель')
     type = models.ForeignKey(PlasticHolderType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
     format = models.ForeignKey(PlasticHolderFormat, on_delete=models.SET_NULL, null=True, verbose_name='Формат')
     orientation = models.ForeignKey(PlasticHolderOrientation, on_delete=models.SET_NULL, null=True,
@@ -375,7 +378,6 @@ class PlasticHolder(SharedOption):
 
     def getImage(self):
         if not self.image:
-            # depending on your template
             return 'images/Default.jpg'
         else:
             return self.image
@@ -427,6 +429,7 @@ class OtherType(models.Model):
 
 # Other Main Model (основная модель)
 class Other(SharedOption):
+    material_type = models.CharField(max_length=6, default='Прочее', verbose_name='Прочее')
     type = models.ForeignKey(OtherType, on_delete=models.SET_NULL, null=True, verbose_name='Тип')
     name = models.ForeignKey(OtherName, on_delete=models.SET_NULL, null=True, verbose_name='Наименование')
     quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
@@ -436,7 +439,6 @@ class Other(SharedOption):
 
     def getImage(self):
         if not self.image:
-            # depending on your template
             return 'images/Default.jpg'
         else:
             return self.image
@@ -449,3 +451,39 @@ class Other(SharedOption):
     class Meta:
         verbose_name = 'Прочее'
         verbose_name_plural = 'Прочее'
+
+
+##########################################################################################
+#                                   Write Off Material                                   #
+##########################################################################################
+
+class WriteOffMaterial(models.Model):
+    type = models.CharField(max_length=40, verbose_name='Тип материала')
+    quantity = models.SmallIntegerField(default=0, verbose_name='Количество')
+    name = models.CharField(max_length=80, verbose_name='Полное наименование материала')
+    date = models.DateField(auto_now_add=True, verbose_name='Дата списания')
+    time = models.TimeField(auto_now_add=True, verbose_name='Время списания')
+    department = models.CharField(max_length=10, default='Общий', verbose_name='Номер отдела')
+    shop = models.CharField(max_length=5, default='000', verbose_name='Номер магазина')
+
+    def __str__(self):
+        return '{} {}'.format(self.type, self.name)
+
+    class Meta:
+        verbose_name = 'Списанный материал'
+        verbose_name_plural = 'Списанные материалы'
+
+
+#################
+#   Department  #
+#################
+
+class Department(models.Model):
+    department = models.CharField(max_length=20, verbose_name='Номер отдела')
+
+    def __str__(self):
+        return self.department
+
+    class Meta:
+        verbose_name = 'Номер отдела'
+        verbose_name_plural = 'Номера отделов'

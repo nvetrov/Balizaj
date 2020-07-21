@@ -4,33 +4,33 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="{% static '/css/cart_style.css' %}">
+    <link rel="stylesheet" href="{% static '/css/report.css' %}">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-	<title>Корзина</title>
+	<title>Отчёт</title>
 </head>
 <body>
     <nav class="container">
         <h1>{{ profile }}</h1>
+        <h3>Отдел - {{ department }}</h3>
+        <div class="date">
+            <h3>Начало периода: {{ start }}</h3>
+            <h3>Конец периода: {{ end }}</h3>
+        </div>
         {% if pockets %}
         <div class="material">
             <h2>Карманы</h2>
             <ul>
                 {% for pocket in pockets %}
-                    <form method="POST" id="{{ pocket.id }}">
-                    {% csrf_token %}
                     <div class="cell">
                         <div class="cell-top">
-                            <li>{{ pocket }}</li>
+                            <li>{{ pocket.name }}</li>
                             <div class="cell-top-right">
-                                <h4>{{ pocket.cart_count }} шт.</h4>
-                                <input type="hidden" name="name" form="{{ pocket.id}}" value="pockets">
-                                <input type="hidden" name="id" form="{{ pocket.id}}" value="{{ pocket.id }}">
-                                <button class="button" type="submit" form="{{ pocket.id }}">Удалить</button>
+                                <h4>{{ pocket.summa }} шт.</h4>
+
                             </div>
                         </div>
                         <hr>
                     </div>
-                    </form>
                 {% endfor %}
             </ul>
         </div>
@@ -40,21 +40,15 @@
             <h2>Ценникодержатели</h2>
             <ul>
                 {% for priceholder in priceholders %}
-                    <form method="POST" id="{{ priceholder.id }}">
-                    {% csrf_token %}
                     <div class="cell">
                         <div class="cell-top">
-                            <li>{{ priceholder }}</li>
+                            <li>{{ priceholder.name }}</li>
                             <div class="cell-top-right">
-                                <h4>{{ priceholder.cart_count }} шт.</h4>
-                                <input type="hidden" name="name" form="{{ priceholder.id}}" value="priceholders">
-                                <input type="hidden" name="id" form="{{ priceholder.id}}" value="{{ priceholder.id }}">
-                                <button class="button" type="submit" form="{{ priceholder.id }}">Удалить</button>
+                                <h4>{{ priceholder.summa }} шт.</h4>
                             </div>
                         </div>
                         <hr>
                     </div>
-                    </form>
                 {% endfor %}
             </ul>
         </div>
@@ -64,21 +58,15 @@
             <h2>Пластиковые держатели</h2>
             <ul>
                 {% for plasticholder in plasticholders %}
-                    <form method="POST" id="{{ plasticholder.id }}">
-                    {% csrf_token %}
                     <div class="cell">
                         <div class="cell-top">
-                            <li>{{ plasticholder }}</li>
+                            <li>{{ plasticholder.name }}</li>
                             <div class="cell-top-right">
-                                <h4>{{ plasticholder.cart_count }} шт.</h4>
-                                <input type="hidden" name="name" form="{{ plasticholder.id}}" value="plasticholders">
-                                <input type="hidden" name="id" form="{{ plasticholder.id}}" value="{{ plasticholder.id }}">
-                                <button class="button" type="submit" form="{{ plasticholder.id }}">Удалить</button>
+                                <h4>{{ plasticholder.summa }} шт.</h4>
                             </div>
                         </div>
                         <hr>
                     </div>
-                    </form>
                 {% endfor %}
             </ul>
         </div>
@@ -88,21 +76,15 @@
             <h2>Бумага для ценников</h2>
             <ul>
                 {% for pricepaper in pricepapers %}
-                    <form method="POST" id="{{ pricepaper.id }}">
-                    {% csrf_token %}
                     <div class="cell">
                         <div class="cell-top">
-                            <li>{{ pricepaper }}</li>
+                            <li>{{ pricepaper.name }}</li>
                             <div class="cell-top-right">
-                                <h4>{{ pricepaper.cart_count }} шт.</h4>
-                                <input type="hidden" name="name" form="{{ pricepaper.id}}" value="pricepapers">
-                                <input type="hidden" name="id" form="{{ pricepaper.id}}" value="{{ pricepaper.id }}">
-                                <button class="button" type="submit" form="{{ pricepaper.id }}">Удалить</button>
+                                <h4>{{ pricepaper.summa }} шт.</h4>
                             </div>
                         </div>
                         <hr>
                     </div>
-                    </form>
                 {% endfor %}
             </ul>
         </div>
@@ -112,21 +94,15 @@
             <h2>Разное</h2>
             <ul>
                 {% for other in others %}
-                    <form method="POST" id="{{ other.id }}">
-                    {% csrf_token %}
                     <div class="cell">
                         <div class="cell-top">
-                            <li>{{ other }}</li>
+                            <li>{{ other.name }}</li>
                             <div class="cell-top-right">
-                                <h4>{{ other.cart_count }} шт.</h4>
-                                <input type="hidden" name="name" form="{{ other.id}}" value="others">
-                                <input type="hidden" name="id" form="{{ other.id}}" value="{{ other.id }}">
-                                <button class="button" type="submit" form="{{ other.id }}">Удалить</button>
+                                <h4>{{ other.summa }} шт.</h4>
                             </div>
                         </div>
                         <hr>
                     </div>
-                    </form>
                 {% endfor %}
             </ul>
         </div>
@@ -134,7 +110,7 @@
     </nav>
     {% if not pockets and not priceholders and not plasticholders and not pricepapers and not others %}
         <div class="empty-cart">
-            <h1>Корзина пуста</h1>
+            <h1>Нет списанных материалов за период</h1>
         </div>
     {% endif %}
     <footer>

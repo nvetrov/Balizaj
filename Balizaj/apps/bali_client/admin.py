@@ -81,3 +81,19 @@ class AuthorAdmin(admin.ModelAdmin):
 @admin.register(Other)
 class OtherInstanceAdmin(admin.ModelAdmin):
     list_filter = ('shop', 'warehouse', 'type')
+
+
+###########################
+# WriteOff material Admin #
+###########################
+@admin.register(WriteOffMaterial)
+class OtherInstanceAdmin(admin.ModelAdmin):
+    list_filter = ('type', 'date', 'shop')
+
+
+####################
+# Department Admin #
+####################
+@admin.register(Department)
+class DepartmentInstanceAdmin(admin.ModelAdmin):
+    pass

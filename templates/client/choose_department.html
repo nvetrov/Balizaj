@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="{% static 'css/department-style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+	<title></title>
+</head>
+<body>
+    <nav class="container">
+        <h1>{{ profile }}</h1>
+        <h2>Выберите отдел</h2>
+        <div class=""></div>
+        <form id="department" method="post">
+            {% csrf_token %}
+        </form>
+        <div class="department">
+            <select form="department" name="department">
+                <option>--</option>
+                {% for dept in department %}
+                    <option>{{ dept }}</option>
+                {% endfor %}
+            </select>
+            </div>
+            <button class="border green" type="submit" form="department">Списать</button>
+    </nav>
+    <footer>
+        <div class="nav-buttons">
+            <li><a class="nav-button" href="/client/cart">Корзина</a></li>
+            <li><a class="nav-button" href="/client">Главное меню</a></li>
+        </div>
+        <div class="description">
+            <p>LM LocDev  <img src="{% static 'images/Logo_LM.svg' %}" height="30px"></p>
+        </div>
+    </footer>
+</body>
+</html>

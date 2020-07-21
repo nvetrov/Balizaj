@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('client/', include('Balizaj.apps.bali_client.urls')),
+    path('bali/', include('Balizaj.apps.bali_admin.urls'))
 ]
 
 #urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
