@@ -1,24 +1,22 @@
-from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse
-from .models import *
-from django.contrib import auth
-from Balizaj.apps.bali_client.mag_number_auth import Auth
-from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from Balizaj.apps.bali_client.models import UserProfile, WriteOffMaterial, Department
+from Balizaj.apps.bali_client.models import *
 import datetime
 from django.db.models import Sum
+
 
 # получение текущего пользователя
 def current_user(request):
     profile = UserProfile.objects.get(user=request.user)
     current_date = datetime.date.today()
+    shop_id = Shop.objects.get(shop=profile.shop_number)
 
     data = {'profile': profile,
             'shop': profile.shop_number,
             'department': Department.objects.all(),
-            'current_date': current_date.strftime('%Y-%m-%d')
+            'current_date': current_date.strftime('%Y-%m-%d'),
+            'shop_id': shop_id
             }
     return data
 
@@ -59,4 +57,37 @@ def reports(request):
         others = materials.filter(type='Прочее')
         data['others'] = others
         return HttpResponse(template.render(data, request))
+    return HttpResponse(template.render(data, request))
+
+
+def warehouse_material(shop_id, warehouse):
+    pockets = Pocket.objects.filter(shop=shop_id).filter(warehouse=warehouse)
+    pricholders = PriceHolder.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
+    plasticholders = PlasticHolder.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
+    pricepaper = PricePaper.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
+    other = Other.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
+    data = {'pockets': pockets,
+            'priceholders': pricholders,
+            'plasticholders': plasticholders,
+            'pricepapers': pricepaper,
+            'others': other}
+    return data
+
+
+# Страница перемещения между складами
+@login_required(login_url='/')
+def move_between_storage(request):
+    template = loader.get_template('bali/index_storages.html')
+    user = current_user(request)
+    data = {**user, **warehouse_material(user['shop_id'], 2)}
+    print(data)
+    ware_start = Warehouse.objects\
+        .filter(sharedoption__shop__shop=Shop.objects.get(shop=data['shop']).shop)\
+        .order_by('warehouse')\
+        .distinct()
+    ware_end = Warehouse.objects.filter(shop=data['shop_id']).order_by('warehouse')
+    data['ware_start'] = ware_start
+    data['ware_end'] = ware_end
+    if request.method == 'POST':
+        print(request.POST)
     return HttpResponse(template.render(data, request))

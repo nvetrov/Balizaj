@@ -22,7 +22,7 @@ h2{
 .date{
     display: flex;
     width: 75%;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 nav{

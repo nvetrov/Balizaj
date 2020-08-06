@@ -13,8 +13,7 @@
         <h1>{{ profile }}</h1>
         <h3>Отдел - {{ department }}</h3>
         <div class="date">
-            <h3>Начало периода: {{ start }}</h3>
-            <h3>Конец периода: {{ end }}</h3>
+            <h3>Период с {{ start }} по {{ end }}</h3>
         </div>
         {% if pockets %}
         <div class="material">
@@ -115,8 +114,8 @@
     {% endif %}
     <footer>
         <div class="nav-buttons">
-            <li><a class="nav-button" href="/client/choose_department">Списать</a></li>
-            <li><a class="nav-button" href="/client/">Главное меню</a></li>
+            <li><a class="nav-button" href="{% url 'trigger_error' %}">Сохранить</a></li>
+            <li><a class="nav-button" href="/">Главное меню</a></li>
         </div>
         <div class="description">
             <p>LM LocDev  <img src="{% static '/images/Logo_LM.svg' %}" height="30px"></p>

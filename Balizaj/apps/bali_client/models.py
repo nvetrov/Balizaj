@@ -57,6 +57,7 @@ class Shop(models.Model):
 # Warehouse (место хранения, название склада)
 class Warehouse(models.Model):
     warehouse = models.CharField(max_length=30)
+    shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, verbose_name='Магазин')
 
     def __str__(self):
         return self.warehouse

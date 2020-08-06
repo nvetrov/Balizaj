@@ -4,21 +4,55 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/storage-style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
 	<title></title>
 </head>
 <body>
-{% csrf_token %}
-<nav class="container">
-    <h1>{{ profile }}</h1>
-    <ul>
-        <li><a class="green" href="/bali/reports">Отчёты</a></li>
-        <li><a class="green" href="/bali/storages">Пополнение и перемещение</a></li>
-    </ul>
-</nav>
-    <footer>
-        <p>LM LocDev  <img src="{% static 'images/Logo_LM.svg' %}" height="30px"></p>
-    </footer>
+    <nav class="container">
+        <h1>{{ profile }}</h1>
+        <h2>Выберите склады</h2>
+        <div class=""></div>
+        <form id="warehouses" method="post">
+            {% csrf_token %}
+            <div class="warehouses">
+                <div class="warehouse-block">
+                    <h3>Пемещаем из</h3>
+                    <select form="warehouses" name="warehouse-start">
+                    {% for warehouse in ware_start %}
+                        <option>{{ warehouse }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="warehouse-block">
+                    <h3>Пемещаем в</h3>
+                    <select form="warehouses" name="warehouse-end">
+                    {% for warehouse in ware_end %}
+                        <option>{{ warerehouse }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </form>
+        <button class="border green pocket">Карманы</button>
+        <div class="pockets"
+        </div>
+        <button class="border green priceholder">Ценникодержатели</button>
+        <div class="priceholders">
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+            <p>Test</p>
+        </div>
+        <button class="border green" type="submit" form="warehouses">Переместить</button>
+        </nav>
 </body>
+<script type="text/javascript" src="{% static '/js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static '/js/storages.js' %}"></script>
 </html>

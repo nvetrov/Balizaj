@@ -221,3 +221,7 @@ def write_off(department, shop_number):
             material.cart_count = 0
             material.cart_quantity = 0
             material.save()
+
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
