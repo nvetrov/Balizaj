@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('reports', views.reports),
-    path('move_between_storage', views.move_between_storage),
+    path('select_move_storage', views.select_move_storage),
 ]

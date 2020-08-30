@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from .models import *
 from django.contrib import auth
 from Balizaj.apps.bali_client.mag_number_auth import Auth
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
 
@@ -44,16 +44,13 @@ def index(request):
         return render(request, 'index.html')
 
     if request.user.is_authenticated:
-        print('authorised')
         profile = UserProfile.objects.get(user=request.user)
         data = {'profile': profile}
         if profile.group == 'client':
-            print('client')
             template = loader.get_template('client/index.html')
             return HttpResponse(template.render(data, request))
 
         elif profile.group == 'bali':
-            print('bali')
             template = loader.get_template('bali/index.html')
             return HttpResponse(template.render(data, request))
     return render(request, 'client/index.html', {})
@@ -62,7 +59,6 @@ def index(request):
 # Страница выбора типа материалов
 @login_required(login_url='/')
 def client_index(request):
-    print(request.user)
     return render(request, 'client/index.html', {})
 
 
@@ -177,7 +173,6 @@ def cart(request):
     template = loader.get_template('client/cart.html')
 
     if request.method == 'POST':
-        print(request.POST)
         material = material_dict()[request.POST['name']].get(id=int(request.POST['id']))
         material.cart_count = 0
         material.cart_quantity = 0
@@ -214,9 +209,6 @@ def write_off(department, shop_number):
             a.shop = shop_number
             a.department = department
             a.save()
-            print(a.date)
-            print(a.time)
-            print(a.shop)
             material.quantity -= material.cart_count
             material.cart_count = 0
             material.cart_quantity = 0

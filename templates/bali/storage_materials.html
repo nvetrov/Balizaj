@@ -1,0 +1,54 @@
+{% extends 'bali/index_storages.html' %}
+{% block storage %}
+    {% if pockets %}
+        <button class="border green pocket">Карманы</button>
+            <div class="pockets">
+            {% for pocket in pockets %}
+                <p>{{ pocket }}</p>
+            {% endfor %}
+            </div>
+    {% endif %}
+    {% if priceholders %}
+        <button class="border green priceholder">Ценникодержатели</button>
+            <div class="priceholders">
+            {% for priceholder in priceholders %}
+                <p>{{ priceholder }}</p>
+            {% endfor %}
+            </div>
+    {% endif %}
+    {% if plasticholders %}
+        <button class="border green plasticholder">Пластиковые держатели</button>
+            <div class="placticholders">
+                {% for plasticholder in plasticholders %}
+                    <p>{{ plasticholder }}</p>
+                {% endfor %}
+            </div>
+    {% endif %}
+    {% if pricepapers %}
+        <button class="border green pricepaper">Бумага для ценников</button>
+            <div class="pricepapers">
+            {% for pricepaper in pricepapers %}
+                <p>{{ pricepaper }}</p>
+            {% endfor %}
+            </div>
+    {% endif %}
+    {% if others %}
+        <button class="border green other">Прочее</button>
+            <div class="others">
+            {% for other in others %}
+                <p>{{ other }}</p>
+            {% endfor %}
+            </div>
+    {% endif %}
+        <button class="border green" type="submit" form="warehouses">Переместить</button>
+
+    <div class="warehouse-block">
+        <h3>Пемещаем в</h3>
+        <select form="warehouses" name="warehouse-end">
+            {% for warehouse in ware_end %}
+                <option>{{ warerehouse }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+{% endblock %}

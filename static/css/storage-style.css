@@ -22,6 +22,19 @@ nav{
 	display: none;
 }
 
+.priceholders{
+	display: none;
+}
+
+.plasticholders{
+	display: none;
+}
+.pricepapers{
+	display: none;
+}
+.others{
+	display: none;
+}
 .warehouse-block {
     display: flex;
     margin-bottom: 20px;

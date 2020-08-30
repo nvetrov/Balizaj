@@ -1,4 +1,5 @@
 from ldap3 import Server, Connection, SUBTREE
+from ldap3.core.exceptions import LDAPPasswordIsMandatoryError
 import json
 
 
@@ -13,17 +14,24 @@ class Auth:
         self.shop_number = self.__connect()['postOfficeBox']
         self.group = self.__group()
 
-    def __connect(self, attr={}):
+    def __connect(self):
+        attr = {}
         conn = Connection(Server(self.__SERVER), user=self.login + '@leroymerlin.ru', password=self.password)
-        if conn.bind():
-            search_filter = ('(&(objectCategory=Person)(sAMAccountName={}))').format(self.login)
-            conn.search(self.__AD_TREE, search_filter, SUBTREE,
-                        attributes=['physicalDeliveryOfficeName', 'postOfficeBox'])
-            attr = json.loads(conn.response_to_json())
-            attr = attr['entries'][0]['attributes']
-            attr['postOfficeBox'] = attr['postOfficeBox'][0]
-            return attr
-        else:
+        try:
+            conn.bind()
+            if conn.bind():
+                search_filter = ('(&(objectCategory=Person)(sAMAccountName={}))').format(self.login)
+                conn.search(self.__AD_TREE, search_filter, SUBTREE,
+                            attributes=['physicalDeliveryOfficeName', 'postOfficeBox'])
+                attr = json.loads(conn.response_to_json())
+                attr = attr['entries'][0]['attributes']
+                attr['postOfficeBox'] = attr['postOfficeBox'][0]
+                return attr
+            else:
+                attr['physicalDeliveryOfficeName'] = None
+                attr['postOfficeBox'] = None
+                return attr
+        except LDAPPasswordIsMandatoryError:
             attr['physicalDeliveryOfficeName'] = None
             attr['postOfficeBox'] = None
             return attr

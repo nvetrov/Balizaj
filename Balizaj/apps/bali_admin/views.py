@@ -62,12 +62,12 @@ def reports(request):
 
 def warehouse_material(shop_id, warehouse):
     pockets = Pocket.objects.filter(shop=shop_id).filter(warehouse=warehouse)
-    pricholders = PriceHolder.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
-    plasticholders = PlasticHolder.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
-    pricepaper = PricePaper.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
-    other = Other.objects.filter(shop=shop_id).filter(shop__sharedoption__warehouse=warehouse)
+    priceholders = PriceHolder.objects.filter(shop=shop_id).filter(warehouse=warehouse)
+    plasticholders = PlasticHolder.objects.filter(shop=shop_id).filter(warehouse=warehouse)
+    pricepaper = PricePaper.objects.filter(shop=shop_id).filter(warehouse=warehouse)
+    other = Other.objects.filter(shop=shop_id).filter(warehouse=warehouse)
     data = {'pockets': pockets,
-            'priceholders': pricholders,
+            'priceholders': priceholders,
             'plasticholders': plasticholders,
             'pricepapers': pricepaper,
             'others': other}
@@ -76,11 +76,10 @@ def warehouse_material(shop_id, warehouse):
 
 # Страница перемещения между складами
 @login_required(login_url='/')
-def move_between_storage(request):
+def select_move_storage(request):
     template = loader.get_template('bali/index_storages.html')
     user = current_user(request)
-    data = {**user, **warehouse_material(user['shop_id'], 2)}
-    print(data)
+    data = {**user}
     ware_start = Warehouse.objects\
         .filter(sharedoption__shop__shop=Shop.objects.get(shop=data['shop']).shop)\
         .order_by('warehouse')\
@@ -89,5 +88,14 @@ def move_between_storage(request):
     data['ware_start'] = ware_start
     data['ware_end'] = ware_end
     if request.method == 'POST':
-        print(request.POST)
+        ware_id = Warehouse.objects.get(warehouse=request.POST['warehouse-start'])
+        materials = warehouse_material(user['shop_id'], ware_id.id)
+        data = {
+            **user,
+            **warehouse_material(user['shop_id'],ware_id.id),
+            'ware_start': ware_start,
+            'ware_end': ware_end
+        }
+        print(data)
+        template = loader.get_template('bali/storage_materials.html')
     return HttpResponse(template.render(data, request))

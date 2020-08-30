@@ -1,5 +1,5 @@
 $(".pocket").click(function () {
-  $(".pockets").slideToggle("fast").css('display', 'flex');
+  $(".pockets").slideToggle("fast")
 });
 
 $(".plasticholder").click(function () {
