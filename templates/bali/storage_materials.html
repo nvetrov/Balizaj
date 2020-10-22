@@ -1,54 +1,250 @@
-{% extends 'bali/index_storages.html' %}
-{% block storage %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="{% static 'css/storage-style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+	<title></title>
+</head>
+<body>
+    <nav class="container">
+    <h1>{{ profile }}</h1>
+    <h2>{{ warehouse_selected }}</h2>
     {% if pockets %}
         <button class="border green pocket">Карманы</button>
-            <div class="pockets">
-            {% for pocket in pockets %}
-                <p>{{ pocket }}</p>
-            {% endfor %}
+        <div class="pockets">
+            <div class="wrap">
+                {% for pocket in pockets%}
+                    <div class="material-block pocket_module">
+                        <div class="upper-block">
+                            <h4>{{ pocket }}</h4>
+                        </div>
+                        <div class="middle-block">
+                            <div class="image" style="background: url(/media/{{ pocket.getImage }}) no-repeat;
+                                                      background-size: contain;
+                                                      background-position: center;
+                                                      border: 1px black double">
+                            </div>
+                            <div class="buttons">
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+                                <form method="POST" id="{{ pocket.id }}">
+                                {% csrf_token %}
+                                {% if pocket.quantity <= 100 %}
+                                    <input class="form output {{ pocket.id }}" form="{{ pocket.id }}" name="to_cart" type="number" min="0" max="{{ pocket.cart_quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% else %}
+                                    <input class="form output{{ pocket.id }}" form="{{ pocket.id }}" name="to_cart" type="number" min="0" max="100" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% endif %}
+                                <input type="hidden" name="quantity" form="{{ pocket.id }}" value="{{ pocket.quantity }}">
+                                <input type="hidden" name="type" form="{{ pocket.id }}" value="{{ pocket.id }}">
+                                </form>
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
+                            </div>
+                        </div>
+                        <div class="lower-block">
+                            <div class="lower-left">
+                                <h4>Доступно - {{ pocket.quantity }}шт.</h4>
+                            </div>
+                            <div class="lower-right">
+                                <button class="button" id="{{ pocket.id }}" type="submit" {% comment %}form="{{ pocket.id }}{% endcomment %}">Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
+        </div>
     {% endif %}
     {% if priceholders %}
         <button class="border green priceholder">Ценникодержатели</button>
-            <div class="priceholders">
-            {% for priceholder in priceholders %}
-                <p>{{ priceholder }}</p>
-            {% endfor %}
+        <div class="priceholders">
+            <div class="wrap">
+                {% for priceholder in priceholders%}
+                    <div class="material-block priceholder_module">
+                        <div class="upper-block">
+                            <h4>{{ priceholder }}</h4>
+                        </div>
+                        <div class="middle-block">
+                            <div class="image" style="background: url(/media/{{ priceholder.getImage }}) no-repeat;
+                                                      background-size: contain;
+                                                      background-position: center;
+                                                      border: 1px black double">
+                            </div>
+                            <div class="buttons">
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+                                <form method="POST" id="{{ priceholder.id }}">
+                                {% csrf_token %}
+                                {% if other.quantity <= 100 %}
+                                    <input class="form output{{ priceholder.id }}" form="{{ priceholder.id }}" name="to_cart" type="number" min="0" max="{{ priceholder.cart_quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% else %}
+                                    <input class="form output{{ priceholder.id }}" form="{{ priceholder.id }}" name="to_cart" type="number" min="0" max="100" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% endif %}
+                                <input type="hidden" name="quantity" form="{{ priceholder.id }}" value="{{ priceholder.quantity }}">
+                                <input type="hidden" name="type" form="{{ priceholder.id }}" value="{{ priceholder.id }}">
+                                </form>
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
+                            </div>
+                        </div>
+                        <div class="lower-block">
+                            <div class="lower-left">
+                                <h4>Доступно - {{ priceholder.quantity }}шт.</h4>
+                            </div>
+                            <div class="lower-right">
+                                <button class="button" id="{{ priceholder.id }} "type="submit" {% comment %}form="{{ priceholder.id }}"{% endcomment %}>Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
+        </div>
     {% endif %}
     {% if plasticholders %}
         <button class="border green plasticholder">Пластиковые держатели</button>
-            <div class="placticholders">
-                {% for plasticholder in plasticholders %}
-                    <p>{{ plasticholder }}</p>
+        <div class="plasticholders">
+            <div class="wrap">
+                {% for plasticholder in plasticholders%}
+                    <div class="material-block plasticholder_module">
+                        <div class="upper-block">
+                            <h4>{{ plasticholder }}</h4>
+                        </div>
+                        <div class="middle-block">
+                            <div class="image" style="background: url(/media/{{ plasticholder.getImage }}) no-repeat;
+                                                      background-size: contain;
+                                                      background-position: center;
+                                                      border: 1px black double">
+                            </div>
+                            <div class="buttons">
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+                                <form method="POST" id="{{ plasticholder.id }}">
+                                {% csrf_token %}
+                                {% if plasticholder.quantity <= 100 %}
+                                    <input class="form output{{ plasticholder.id }}" form="{{ plasticholder.id }}" name="to_cart" type="number" min="0" max="{{ plasticholder.cart_quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% else %}
+                                    <input class="form output{{ plasticholder.id }}" form="{{ plasticholder.id }}" name="to_cart" type="number" min="0" max="100" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% endif %}
+                                <input type="hidden" name="quantity" form="{{ plasticholder.id }}" value="{{ plasticholder.quantity }}">
+                                <input type="hidden" name="type" form="{{ plasticholder.id }}" value="{{ plasticholder.id }}">
+                                </form>
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
+                            </div>
+                        </div>
+                        <div class="lower-block">
+                            <div class="lower-left">
+                                <h4>Доступно - {{ plasticholder.quantity }}шт.</h4>
+                            </div>
+                            <div class="lower-right">
+                                <button class="button" id="{{ plasticholder.id }} "type="submit" {% comment %}form="{{ plasticholder.id }}"{% endcomment %}>Добавить</button>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
+        </div>
     {% endif %}
     {% if pricepapers %}
         <button class="border green pricepaper">Бумага для ценников</button>
-            <div class="pricepapers">
-            {% for pricepaper in pricepapers %}
-                <p>{{ pricepaper }}</p>
-            {% endfor %}
+        <div class="pricepapers">
+            <div class="wrap">
+                {% for pricepaper in pricepapers%}
+                    <div class="material-block pricepaper_module">
+                        <div class="upper-block">
+                            <h4>{{ pricepaper }}</h4>
+                        </div>
+                        <div class="middle-block">
+                            <div class="image" style="background: url(/media/{{ pricepaper.getImage }}) no-repeat;
+                                                      background-size: contain;
+                                                      background-position: center;
+                                                      border: 1px black double">
+                            </div>
+                            <div class="buttons">
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+                                <form method="POST" id="{{ pricepaper.id }}">
+                                {% csrf_token %}
+                                {% if pricepaper.quantity <= 100 %}
+                                    <input class="form output{{ pricepaper.id }}" form="{{ pricepaper.id }}" name="to_cart" type="number" min="0" max="{{ pricepaper.cart_quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% else %}
+                                    <input class="form output{{ pricepaper.id }}" form="{{ pricepaper.id }}" name="to_cart" type="number" min="0" max="100" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% endif %}
+                                <input type="hidden" name="quantity" form="{{ pricepaper.id }}" value="{{ pricepaper.quantity }}">
+                                <input type="hidden" name="type" form="{{ pricepaper.id }}" value="{{ pricepaper.id }}">
+                                </form>
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
+                            </div>
+                        </div>
+                        <div class="lower-block">
+                            <div class="lower-left">
+                                <h4>Доступно - {{ pricepaper.quantity }}шт.</h4>
+                            </div>
+                            <div class="lower-right">
+                                <button class="button" id="{{ pricepaper.id }} "type="submit" {% comment %}form="{{ pricepaper.id }}"{% endcomment %}>Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
+        </div>
     {% endif %}
     {% if others %}
         <button class="border green other">Прочее</button>
-            <div class="others">
-            {% for other in others %}
-                <p>{{ other }}</p>
-            {% endfor %}
+        <div class="others">
+            <div class="wrap">
+                {% for other in others%}
+                    <div class="material-block other_module">
+                        <div class="upper-block">
+                            <h4>{{ other }}</h4>
+                        </div>
+                        <div class="middle-block">
+                            <div class="image" style="background: url(/media/{{ other.getImage }}) no-repeat;
+                                                      background-size: contain;
+                                                      background-position: center;
+                                                      border: 1px black double">
+                            </div>
+                            <div class="buttons">
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</button>
+                                <form method="POST" id="{{ other.id }}">
+                                {% csrf_token %}
+                                {% if other.quantity <= 100 %}
+                                    <input class="form output{{ other.id }}" form="{{ other.id }}" name="to_cart" type="number" min="0" max="{{ other.cart_quantity }}" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% else %}
+                                    <input class="form output{{ other.id }}" form="{{ other.id }}" name="to_cart" type="number" min="0" max="100" step="1" inputmode="numeric" pattern="^[ 0-9]+$" placeholder="0">
+                                {% endif %}
+                                <input type="hidden" name="quantity" form="{{ other.id }}" value="{{ other.quantity }}">
+                                <input type="hidden" name="type" form="{{ other.id }}" value="{{ other.id }}">
+                                </form>
+                                <button class="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</button>
+                            </div>
+                        </div>
+                        <div class="lower-block">
+                            <div class="lower-left">
+                                <h4>Доступно - {{ other.quantity }}шт.</h4>
+                            </div>
+                            <div class="lower-right">
+                                <button class="button" id="{{ other.id }} "type="submit" {% comment %}form="{{ other.id }}"{% endcomment %}>Добавить</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
+        </div>
     {% endif %}
-        <button class="border green" type="submit" form="warehouses">Переместить</button>
-
     <div class="warehouse-block">
         <h3>Пемещаем в</h3>
+        <form id="warehouses" method="post" action="{% url 'move_materials' %}">
+            {% csrf_token %}
         <select form="warehouses" name="warehouse-end">
             {% for warehouse in ware_end %}
-                <option>{{ warerehouse }}</option>
+                <option>{{ warehouse }}</option>
             {% endfor %}
         </select>
+        </form>
+        <button form="warehouses" class="border green">Выбрать</button>
     </div>
-
-{% endblock %}
+    <button class="border green" type="submit" form="warehouses">Переместить</button>
+    </nav>
+<div class="add-alert" style="display: none">
+    <p>TEST</p>
+</div>
+</body>
+<script type="text/javascript" src="{% static '/js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static '/js/storages.js' %}"></script>
+</html>

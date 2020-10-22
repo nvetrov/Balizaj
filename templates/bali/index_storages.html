@@ -12,7 +12,6 @@
     <nav class="container">
         <h1>{{ profile }}</h1>
         <h2>Выберите исходный склад</h2>
-        <div class=""></div>
         <form id="warehouses" method="post">
             {% csrf_token %}
             <div class="warehouses">
@@ -23,14 +22,10 @@
                         <option>{{ warehouse }}</option>
                     {% endfor %}
                     </select>
+                    <button form="warehouses" class="border green">Выбрать</button>
                 </div>
-                <button form="warehouses" class="border green">Выбрать</button>
             </div>
         </form>
-        {% block storage %}
-        {% endblock %}
     </nav>
 </body>
-<script type="text/javascript" src="{% static '/js/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static '/js/storages.js' %}"></script>
 </html>

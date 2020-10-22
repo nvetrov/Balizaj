@@ -61,11 +61,16 @@ def reports(request):
 
 
 def warehouse_material(shop_id, warehouse):
-    pockets = Pocket.objects.filter(shop=shop_id).filter(warehouse=warehouse)
-    priceholders = PriceHolder.objects.filter(shop=shop_id).filter(warehouse=warehouse)
-    plasticholders = PlasticHolder.objects.filter(shop=shop_id).filter(warehouse=warehouse)
-    pricepaper = PricePaper.objects.filter(shop=shop_id).filter(warehouse=warehouse)
-    other = Other.objects.filter(shop=shop_id).filter(warehouse=warehouse)
+    pockets = Pocket.objects.filter(shop=shop_id).filter(warehouse=warehouse,
+                                                         quantity__gt=0)
+    priceholders = PriceHolder.objects.filter(shop=shop_id).filter(warehouse=warehouse,
+                                                                   quantity__gt=0)
+    plasticholders = PlasticHolder.objects.filter(shop=shop_id).filter(warehouse=warehouse,
+                                                                       quantity__gt=0)
+    pricepaper = PricePaper.objects.filter(shop=shop_id).filter(warehouse=warehouse,
+                                                                quantity__gt=0)
+    other = Other.objects.filter(shop=shop_id).filter(warehouse=warehouse,
+                                                      quantity__gt=0)
     data = {'pockets': pockets,
             'priceholders': priceholders,
             'plasticholders': plasticholders,
@@ -77,6 +82,7 @@ def warehouse_material(shop_id, warehouse):
 # Страница перемещения между складами
 @login_required(login_url='/')
 def select_move_storage(request):
+    print(request)
     template = loader.get_template('bali/index_storages.html')
     user = current_user(request)
     data = {**user}
@@ -84,18 +90,25 @@ def select_move_storage(request):
         .filter(sharedoption__shop__shop=Shop.objects.get(shop=data['shop']).shop)\
         .order_by('warehouse')\
         .distinct()
-    ware_end = Warehouse.objects.filter(shop=data['shop_id']).order_by('warehouse')
     data['ware_start'] = ware_start
-    data['ware_end'] = ware_end
     if request.method == 'POST':
+        template = loader.get_template('bali/storage_materials.html')
         ware_id = Warehouse.objects.get(warehouse=request.POST['warehouse-start'])
-        materials = warehouse_material(user['shop_id'], ware_id.id)
+        warehouse_selected = Warehouse.objects.get(warehouse=ware_id)
+        ware_end = Warehouse.objects.filter(shop=data['shop_id'])\
+            .order_by('warehouse')\
+            .exclude(warehouse=warehouse_selected)
         data = {
             **user,
-            **warehouse_material(user['shop_id'],ware_id.id),
-            'ware_start': ware_start,
-            'ware_end': ware_end
+            **warehouse_material(user['shop_id'], ware_id.id),
+            'ware_end': ware_end,
+            'warehouse_selected': warehouse_selected
         }
-        print(data)
-        template = loader.get_template('bali/storage_materials.html')
+        return HttpResponse(template.render(data, request))
     return HttpResponse(template.render(data, request))
+
+
+def move_materials(request):
+    print(request.POST)
+    return request
+

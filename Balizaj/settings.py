@@ -23,7 +23,6 @@ PROJECT_ROOT = os.path.dirname(__file__)
 
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
-
 # sentry_sdk.init(
 #    dsn="https://1441297a37cb4863a7c02c72020cf4ef@o361837.ingest.sentry.io/5370746",
 #    integrations=[DjangoIntegration()],
@@ -39,7 +38,7 @@ SECRET_KEY = '4h-m!4qqq&)zp8a-se!!fudyhbi+@!#4#j^5au5*-puwk^r-0@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.68', '10.83.20.87', '10.86.42.77']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.68', '10.86.42.29']
 
 # Application definition
 
@@ -50,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
     'jquery',
     'ldap3',
     'Balizaj.apps.bali_client',

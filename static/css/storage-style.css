@@ -18,38 +18,30 @@ nav{
 	flex-direction: column;
 }
 
-.pockets{
+.pockets, .pricepapers, .priceholders, .plasticholders, .others{
 	display: none;
 }
 
-.priceholders{
-	display: none;
-}
-
-.plasticholders{
-	display: none;
-}
-.pricepapers{
-	display: none;
-}
-.others{
-	display: none;
-}
 .warehouse-block {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     justify-content: space-between;
     min-width: 340px;
 }
 
 input, select{
 	padding: 9px 0 9px 0;
+	margin: 0 10px;
     border: 2px solid rgb(33, 126, 74);
     border-radius: 5px;
     width: 200px;
     font-family: 'Roboto', sans-serif;
     font-size: 17px;
     text-align: end;
+}
+
+.warehouse-block > form > button{
+	width: 150px;
 }
 
 select{
@@ -71,6 +63,7 @@ button{
 .border{
 	border: 2px solid rgb(33, 126, 74);
 	border-radius: 5px;
+    margin-bottom: 10px;
 }
 
 .green {
@@ -144,6 +137,151 @@ footer{
 
 .nav-button:hover, .button:hover{
     background-color: rgb(72, 140, 38);
+}
+
+.button{
+    width: 80%;
+    background-color: rgb(90, 176, 48);
+    border: 1px solid rgb(33, 126, 74);
+    border-radius: 3px;
+    transition: background-color 0.4s linear;
+    font-size: 20px;
+    color: #fff;
+}
+
+.button:hover{
+    background-color: rgb(72, 140, 38);
+}
+
+.material-block{
+    display: block;
+    margin: 10px;
+    min-width: 250px;
+    max-width: 250px;
+    min-height: 250px;
+    max-height: 250px;
+    border:solid rgb(33, 126, 74);
+    border-radius: 15px;
+}
+
+.upper-block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 12px;
+}
+
+.middle-block{
+    display: flex;
+    width: 100%;
+    height: 160px;
+    padding-left: 5px;
+}
+
+.buttons{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+.form {
+    height: 50px;
+    width: 80px;
+    font-size: 40px;
+    text-align: center;
+}
+
+.image{
+    display: flex;
+    width: 50%;
+    height: 100%;
+}
+
+.lower-block{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    padding-left: 5px;
+}
+
+.lower-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 40px;
+    width: 50%;
+    font-size: 12px;
+}
+
+.lower-right{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 40px;
+}
+
+.lower-right > .button {
+    height: 30px;
+    font-size: 15px;
+}
+
+
+.popup {
+    position: fixed;
+    height:100%;
+    width:100%;
+    top:0;
+    left:0;
+    display:none;
+    text-align:center;
+}
+
+.popup_bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:rgba(0,0,0,0.4);
+    position:fixed;
+    z-index:1;
+    height:100%;
+    width:100%;
+}
+
+.popup_img {
+    position: relative;
+    margin:0 auto;
+    z-index:2;
+    max-height:94%;
+    max-width:94%;
+    margin:1% 0 0 0;
+}
+
+.wrap{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 @media only screen and (max-width: 360px){
