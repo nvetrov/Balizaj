@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import sys
-import sentry_sdk
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from Balizaj.apps import bali_client
@@ -38,7 +37,7 @@ SECRET_KEY = '4h-m!4qqq&)zp8a-se!!fudyhbi+@!#4#j^5au5*-puwk^r-0@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.1.68', '10.86.42.29']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 

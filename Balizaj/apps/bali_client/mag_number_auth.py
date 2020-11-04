@@ -4,7 +4,8 @@ import json
 
 
 class Auth:
-    __SERVER = 'ad.lmru.tech:389'
+    # __SERVER = 'ad.lmru.tech:389'
+    __SERVER = '10.220.8.235:389'
     __AD_TREE = 'OU=Leroy Merlin Vostok,DC=hq,DC=ru,DC=corp,DC=leroymerlin,DC=com'
 
     def __init__(self, login, password):
